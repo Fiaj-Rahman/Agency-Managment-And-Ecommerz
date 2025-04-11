@@ -41,7 +41,12 @@ const profileMenuItems = [
         to: "/profile",
     },
     {
-        label: "Subscription Renew",
+        label: "About Us",
+        icon: InboxArrowDownIcon,
+        to: "/Renew-subscription",
+    },
+    {
+        label: "Contact Us",
         icon: InboxArrowDownIcon,
         to: "/Renew-subscription",
     },
@@ -61,7 +66,7 @@ function ProfileMenu() {
     useEffect(() => {
         const fetchUserData = async () => {
             try {
-                const response = await axios.get("http://localhost:5000/signup");
+                const response = await axios.get("https://varsity-project-server-site.vercel.app/registration");
                 const data = response.data;
                 const userData = data.find(item => item.email === user?.email);
                 setRegistrationData(userData);
@@ -143,8 +148,14 @@ const navListItems = [
         icon: FaHome,
         to: "/",
     },
+    
     {
-        label: "Resturant",
+        label: "Products",
+        icon: FaAddressBook,
+        to: "/product",
+    },
+    {
+        label: "Hotel",
         icon: FaProjectDiagram,
         to: "/products",
     },
@@ -157,23 +168,9 @@ const navListItems = [
     {
         label: "Tourist Spot",
         icon: FaBloggerB,
-        to: "/blog",
+        to: "/tour-plan",
     },
-    {
-        label: "About Us",
-        icon: FaAddressBook,
-        to: "/about-us",
-    },
-    {
-        label: "Products",
-        icon: FaAddressBook,
-        to: "/about-us",
-    },
-    {
-        label: "Contact",
-        icon: MdContactPhone,
-        to: "/contact",
-    },
+    
 ];
 
 function NavList() {
@@ -202,6 +199,68 @@ export function NavBars() {
         window.addEventListener("resize", () => window.innerWidth >= 960 && setIsNavOpen(false));
     }, []);
 
+    const navigate = useNavigate();
+    const [registrationData, setRegistrationData] = useState(null);
+
+    useEffect(() => {
+        const fetchUserData = async () => {
+            try {
+                const response = await axios.get("https://varsity-project-server-site.vercel.app/registration");
+                const data = response.data;
+                const userData = data.find(item => item.email === user?.email);
+                setRegistrationData(userData);
+            } catch (error) {
+                console.error("Error fetching user data:", error);
+            }
+        };
+
+        if (user?.email) {
+            fetchUserData();
+        }
+    }, [user?.email]);
+
+    // Add Become Agency functionality
+    const handleBecomeAgency = async () => {
+        if (!user) {
+            alert("Please log in first.");
+            return;
+        }
+
+        try {
+            // Make API request to backend to add "Agency: 'pending'" to the user
+            const response = await axios.put("https://varsity-project-server-site.vercel.app/become-agency", {
+                email: user.email,
+            });
+
+            if (response.data.success) {
+                alert("You have successfully requested to become an agency!");
+            } else {
+                alert(response.data.message || "Something went wrong.");
+            }
+        } catch (error) {
+            console.error("Error:", error);
+            alert("There was an error processing your request.");
+        }
+    };
+
+    // Conditional render logic for Become Agency / Request Pending / No button when approved
+    const renderAgencyButton = () => {
+        if (user && registrationData?.agency === "pending") {
+            return <button className="text-sm bg-gray-300 p-2 text-black font-bold rounded-lg hover:bg-gray-200" disabled>Request Pending</button>;
+        } else if (user && registrationData?.agency === "approved") {
+            return null; // No button when agency is approved
+        } else if (user) {
+            return (
+                <button 
+                    onClick={handleBecomeAgency}
+                    className="text-sm bg-gray-300 p-2 text-black font-bold rounded-lg hover:bg-gray-200"
+                >
+                    Become an Agency
+                </button>
+            );
+        }
+    };
+
     return (
         <Navbar className="mx-auto fixed top-0 left-0 right-0 z-50 p-4 bg-gradient-to-r from-blue-500 to-indigo-600 rounded-none">
             <div className="relative mx-auto flex items-center justify-between text-white">
@@ -216,7 +275,10 @@ export function NavBars() {
                     <NavList />
                 </div>
 
-                
+                {/* Conditional Rendering for Become Agency / Request Pending / No button when approved */}
+                <div>
+                    {renderAgencyButton()}
+                </div>
 
                 {/* Conditional Rendering for Profile Menu and Login Button */}
                 <div className="flex items-center ml-auto space-x-2">
@@ -260,5 +322,6 @@ export function NavBars() {
         </Navbar>
     );
 }
+
 
 export default NavBars;

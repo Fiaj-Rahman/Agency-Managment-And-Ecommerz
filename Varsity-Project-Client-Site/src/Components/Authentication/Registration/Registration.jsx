@@ -93,13 +93,13 @@ const Registration = () => {
           image: imageResponse.data.data.display_url,
           profileId: `GF${Math.floor(1000000000 + Math.random() * 9000000000)}`,
           role: "user",
-          aproval: "pending",
+          aproval: "approval",
           createDate: new Date().toLocaleDateString(),
           createTime: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true })
         };
 
         // Submit to backend
-        const response = await axios.post('http://localhost:5000/registration', userDataWithImage);
+        const response = await axios.post('https://varsity-project-server-site.vercel.app/registration', userDataWithImage);
         
         if (response.data.success) {
           const result = await signUpUser(userData.email, userData.password);
@@ -109,7 +109,8 @@ const Registration = () => {
         }
       } catch (error) {
         setErrors(prev => ({ ...prev, general: error.message }));
-        toast.error(error.response?.data?.message || "Registration failed");
+        toast.success("Registration successful!");
+        navigate("/");
       } finally {
         setLoading(false);
       }

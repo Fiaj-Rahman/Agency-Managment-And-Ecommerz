@@ -57,7 +57,7 @@ const Login = () => {
         await loginUser(email, password);
 
         const { data } = await axios.post(
-          'http://localhost:5000/jwt',
+          'https://varsity-project-server-site.vercel.app/jwt',
           { email },{withCredentials: true}
           
         );
@@ -106,7 +106,7 @@ const Login = () => {
 
   useEffect(() => {
     if (user) {
-      navigate("/statistic");
+      navigate("/");
     } else {
       setIsLoading(false);
     }
@@ -124,8 +124,8 @@ const Login = () => {
     <div>
          {/* Welcome Text About Samadhan Group */}
 <p className="mb-8 pt-10 text-center text-white text-lg font-medium leading-relaxed md:text-2xl">
-  Welcome to <span className="text-indigo-200 font-bold">Green Fashion!</span><br />
-  We are dedicated to providing innovative solutions to your business needs.<br />
+  Welcome<span className="text-indigo-200 font-bold">!</span><br />
+  We are dedicated to providing innovative solutions to your Agency needs.<br />
   Log in to access our services and features.
 </p>
 
