@@ -417,6 +417,15 @@ app.put('/registration/:id', async (req, res) => {
 
 
 
+   // tour details 
+   app.get('/tour/:id', async (req, res) => {
+    const id = req.params.id;
+    const query = { _id: new ObjectId(id) };
+    const result = await TourCollection.findOne(query);
+    res.send(result);
+  });
+
+
 
 
 

@@ -150,8 +150,8 @@ const Create_Tour_Plan = () => {
         const tourData = {
           touristSpotName: formData.touristSpotName,
           touristSpotDetails: formData.touristSpotDetails,
-          totalTourPrice: `${formData.totalTourPrice}৳`,
-          price: `${formData.price}৳`,
+          totalTourPrice: `${formData.totalTourPrice}`,
+          price: `${formData.price}`,
           startDate: formData.startDate,
           endDate: formData.endDate,
           images: imageUrls,

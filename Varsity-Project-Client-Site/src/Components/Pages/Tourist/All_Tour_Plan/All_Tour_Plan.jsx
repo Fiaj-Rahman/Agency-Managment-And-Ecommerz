@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { format } from "date-fns";
+import { Link } from "react-router-dom";
 
 const All_Tour_Plan = () => {
   const [tours, setTours] = useState([]);
@@ -89,7 +90,8 @@ const All_Tour_Plan = () => {
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {filteredTours.map((tour) => (
-              <div
+              <Link to={`/tour-plan/${tour._id}`}> 
+                <div
                 key={tour._id}
                 className="bg-white rounded-xl shadow-lg overflow-hidden transform transition-all hover:scale-105 duration-300"
               >
@@ -130,6 +132,7 @@ const All_Tour_Plan = () => {
                   </div>
                 </div>
               </div>
+              </Link>
             ))}
           </div>
         )}

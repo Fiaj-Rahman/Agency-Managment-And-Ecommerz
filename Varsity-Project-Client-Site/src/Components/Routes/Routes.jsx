@@ -17,6 +17,7 @@ import Update_Product from "../Pages/Products/Update_Product/Update_Product";
 import Manage_Tour_Plan from "../Inventory/Pages/Manage_Tour_Plan/Manage_Tour_Plan/Manage_Tour_Plan";
 import Create_Tour_Plan from "../Inventory/Pages/Manage_Tour_Plan/Create_Tour_Plan/Create_Tour_Plan";
 import All_Tour_Plan from "../Pages/Tourist/All_Tour_Plan/All_Tour_Plan";
+import View_Tour_Plan from "../Inventory/Pages/Manage_Tour_Plan/View_Tour_Plan/View_Tour_Plan";
 
 
 
@@ -44,7 +45,11 @@ export const router = createBrowserRouter([
             {
                 path: "/tour-plan",
                 element: <All_Tour_Plan></All_Tour_Plan>
-            }
+            },
+            {
+                path: "/tour-plan/:id",
+                element: <View_Tour_Plan></View_Tour_Plan>
+            },
 
 
 
