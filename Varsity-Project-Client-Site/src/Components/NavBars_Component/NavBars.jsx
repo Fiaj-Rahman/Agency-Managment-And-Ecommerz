@@ -66,7 +66,7 @@ function ProfileMenu() {
     useEffect(() => {
         const fetchUserData = async () => {
             try {
-                const response = await axios.get("https://varsity-project-server-site.vercel.app/registration");
+                const response = await axios.get("http://localhost:5000/registration");
                 const data = response.data;
                 const userData = data.find(item => item.email === user?.email);
                 setRegistrationData(userData);
@@ -157,7 +157,7 @@ const navListItems = [
     {
         label: "Hotel",
         icon: FaProjectDiagram,
-        to: "/products",
+        to: "/hotel-room",
     },
     
     {
@@ -205,7 +205,7 @@ export function NavBars() {
     useEffect(() => {
         const fetchUserData = async () => {
             try {
-                const response = await axios.get("https://varsity-project-server-site.vercel.app/registration");
+                const response = await axios.get("http://localhost:5000/registration");
                 const data = response.data;
                 const userData = data.find(item => item.email === user?.email);
                 setRegistrationData(userData);
@@ -228,7 +228,7 @@ export function NavBars() {
 
         try {
             // Make API request to backend to add "Agency: 'pending'" to the user
-            const response = await axios.put("https://varsity-project-server-site.vercel.app/become-agency", {
+            const response = await axios.put("http://localhost:5000/become-agency", {
                 email: user.email,
             });
 

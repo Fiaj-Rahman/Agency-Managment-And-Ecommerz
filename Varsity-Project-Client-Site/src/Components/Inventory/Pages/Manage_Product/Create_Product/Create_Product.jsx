@@ -133,7 +133,7 @@ const Create_Product = () => {
           createTime
         };
 
-        const response = await axios.post("https://varsity-project-server-site.vercel.app/product", productData);
+        const response = await axios.post("http://localhost:5000/product", productData);
 
         if (response.data.success) {
           toast.success("Product created successfully!");

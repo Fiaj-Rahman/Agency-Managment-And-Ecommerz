@@ -19,7 +19,7 @@ const Manage_Tour_Plan = () => {
         const fetchTours = async () => {
             setLoading(true);
             try {
-                const response = await fetch("https://varsity-project-server-site.vercel.app/tour");
+                const response = await fetch("http://localhost:5000/tour");
                 const data = await response.json();
                 setTours(data);
             } catch (error) {
@@ -37,7 +37,7 @@ const Manage_Tour_Plan = () => {
         
         setLoading(true);
         try {
-            await fetch(`https://varsity-project-server-site.vercel.app/tour-delete/${id}`, { method: "DELETE" });
+            await fetch(`http://localhost:5000/tour-delete/${id}`, { method: "DELETE" });
             setTours(tours.filter(tour => tour._id !== id));
         } catch (error) {
             console.error("Delete error:", error);

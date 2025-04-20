@@ -18,6 +18,10 @@ import Manage_Tour_Plan from "../Inventory/Pages/Manage_Tour_Plan/Manage_Tour_Pl
 import Create_Tour_Plan from "../Inventory/Pages/Manage_Tour_Plan/Create_Tour_Plan/Create_Tour_Plan";
 import All_Tour_Plan from "../Pages/Tourist/All_Tour_Plan/All_Tour_Plan";
 import View_Tour_Plan from "../Inventory/Pages/Manage_Tour_Plan/View_Tour_Plan/View_Tour_Plan";
+import Create_Hotel_Room from "../Inventory/Pages/Manage_Hotel/Create_Hotel_Room/Create_Hotel_Room";
+import Manage_Hotel from "../Inventory/Pages/Manage_Hotel/Manage_Hotel/Manage_Hotel";
+import Show_All_Hotels from "../Pages/Hotels/Show_All_Hotels/Show_All_Hotels";
+import Create_Vehicle from "../Inventory/Pages/Manage_Vehicle/Create_Vehicle/Create_Vehicle";
 
 
 
@@ -42,6 +46,9 @@ export const router = createBrowserRouter([
                 path: "/product/:id",
                 element: <View_Product></View_Product>
             },
+
+
+            // Tour plan Routes
             {
                 path: "/tour-plan",
                 element: <All_Tour_Plan></All_Tour_Plan>
@@ -50,6 +57,14 @@ export const router = createBrowserRouter([
                 path: "/tour-plan/:id",
                 element: <View_Tour_Plan></View_Tour_Plan>
             },
+
+
+            // Hotel Room Routes
+
+            {
+                path: "/hotel-room",
+                element: <Show_All_Hotels></Show_All_Hotels>
+            }
 
 
 
@@ -111,6 +126,27 @@ export const router = createBrowserRouter([
             {
                 path: "/dashboard/create-tour-plan",
                 element: <Create_Tour_Plan></Create_Tour_Plan>
+            },
+
+
+            // Hotel Room Routes
+
+            {
+                path: "/dashboard/create-hotel-room",
+                element: <Create_Hotel_Room></Create_Hotel_Room>
+            },
+            {
+                path: "/dashboard/manage-hotel",
+                element:<Manage_Hotel></Manage_Hotel>
+            },
+
+
+
+            // Vehicle Routes 
+
+            {
+                path: "/dashboard/create-vehicle",
+                element:<Create_Vehicle></Create_Vehicle>
             }
 
         ]

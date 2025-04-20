@@ -99,7 +99,7 @@ const Registration = () => {
         };
 
         // Submit to backend
-        const response = await axios.post('https://varsity-project-server-site.vercel.app/registration', userDataWithImage);
+        const response = await axios.post('http://localhost:5000/registration', userDataWithImage);
         
         if (response.data.success) {
           const result = await signUpUser(userData.email, userData.password);

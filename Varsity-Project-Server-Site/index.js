@@ -75,6 +75,7 @@ async function run() {
     const UserCollection = client.db('VarsityProject').collection('User')
     const ProductCollection = client.db('VarsityProject').collection('Product')
     const TourCollection = client.db('VarsityProject').collection('Tour')
+    const HotelCollection = client.db('VarsityProject').collection('Hotel')
   
 
 
@@ -426,6 +427,127 @@ app.put('/registration/:id', async (req, res) => {
   });
 
 
+
+
+
+
+
+
+  // Hotel Management System
+   // Hotel room Publish Here ...
+
+   app.post('/hotels', async (req, res) => {
+    const { 
+        hotelName,
+        location,
+        district,
+        description,
+        price,
+        roomType,
+        amenities,
+        capacity,
+        images,
+        createDate,
+        createTime
+    } = req.body;
+
+    // ভ্যালিডেশন
+    if (!hotelName || 
+        !location || 
+        !district || 
+        !description || 
+        !price || 
+        !roomType || 
+        !capacity || 
+        !images || 
+        images.length === 0
+    ) {
+        return res.status(400).json({ 
+            success: false, 
+            message: 'সমস্ত প্রয়োজনীয় ফিল্ড পূরণ করুন' 
+        });
+    }
+
+    try {
+        // ডেটাবেজে নতুন হোটেল রুম তৈরি করুন
+        const newHotelRoom = {
+            hotelName,
+            location,
+            district,
+            description,
+            price: parseFloat(price),
+            roomType,
+            amenities: Array.isArray(amenities) ? amenities : [amenities],
+            capacity: parseInt(capacity),
+            images,
+            createDate: createDate || new Date().toISOString().split('T')[0],
+            createTime: createTime || new Date().toLocaleTimeString(),
+            status: 'available',
+            rating: 0,
+            bookings: []
+        };
+
+        const result = await HotelCollection.insertOne(newHotelRoom);
+
+        if (result.acknowledged) {
+            return res.status(201).json({ 
+                success: true, 
+                message: 'হোটেল রুম সফলভাবে তৈরি হয়েছে',
+                roomId: result.insertedId 
+            });
+        } else {
+            return res.status(500).json({ 
+                success: false, 
+                message: 'হোটেল রুম তৈরি করতে সমস্যা হয়েছে' 
+            });
+        }
+    } catch (error) {
+        return res.status(500).json({ 
+            success: false, 
+            message: error.message 
+        });
+    }
+});
+
+
+
+app.get('/hotel', async (req, res) => {
+  try {
+    const blogs = await HotelCollection.find().toArray();
+    res.status(200).json(blogs);
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+});
+
+
+
+ // tour details 
+ app.get('/tour/:id', async (req, res) => {
+  const id = req.params.id;
+  const query = { _id: new ObjectId(id) };
+  const result = await TourCollection.findOne(query);
+  res.send(result);
+});
+
+
+
+app.delete('/hotel-delete/:id', async (req, res) => {
+  try {
+    const { id } = req.params; // Extract the product ID from URL parameters
+
+    // Delete the product from the database
+    const result = await HotelCollection.deleteOne({ _id: new ObjectId(id) });
+
+    if (result.deletedCount > 0) {
+      res.status(200).send({ message: 'product deleted successfully' });
+    } else {
+      res.status(404).send({ message: 'product not found' });
+    }
+  } catch (error) {
+    res.status(500).send({ message: 'An error occurred while deleting the product.', error });
+  }
+});
 
 
 

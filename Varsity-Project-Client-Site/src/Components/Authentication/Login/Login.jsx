@@ -57,7 +57,7 @@ const Login = () => {
         await loginUser(email, password);
 
         const { data } = await axios.post(
-          'https://varsity-project-server-site.vercel.app/jwt',
+          'http://localhost:5000/jwt',
           { email },{withCredentials: true}
           
         );

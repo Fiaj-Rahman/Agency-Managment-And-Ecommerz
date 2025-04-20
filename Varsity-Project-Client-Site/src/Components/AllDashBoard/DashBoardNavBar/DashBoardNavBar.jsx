@@ -64,8 +64,8 @@ const DashBoardNavBar = (props) => {
             <List>
                 {[ 
                     { text: 'Dashboard', icon: <DashboardIcon />, link: '/dashboard/statistic' },
-                    { text: 'Manage Hotel', icon: <MdOutlineManageAccounts className='text-2xl' />, link: '/dashboard/manage-admin' },
-                    { text: 'Manage Vehicle', icon: <MdOutlineManageAccounts className='text-2xl' />, link: '/dashboard/manage-admin' },
+                    { text: 'Manage Hotel', icon: <MdOutlineManageAccounts className='text-2xl' />, link: '/dashboard/manage-hotel' },
+                    { text: 'Manage Vehicle', icon: <MdOutlineManageAccounts className='text-2xl' />, link: '/dashboard/create-vehicle' },
                     { text: 'Manage Tourist-Spot', icon: <MdOutlineManageAccounts className='text-2xl' />, link: '/dashboard/manage-tour-plan' },
                     { text: 'Manage Product', icon: <MdOutlineManageAccounts className='text-2xl' />, link: '/dashboard/manage-product' },
                     { text: 'Manage Agency', icon: <MdOutlineManageAccounts className='text-2xl' />, link: '/dashboard/manage-agency' },

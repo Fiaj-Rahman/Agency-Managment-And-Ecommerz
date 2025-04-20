@@ -94,7 +94,7 @@ const logOut = async () => {
     // Sign out from Firebase
     await signOut(auth);
       // Send GET request to the backend server to clear session cookies
-      await axios.get('https://varsity-project-server-site.vercel.app/logout', { withCredentials: true });
+      await axios.get('http://localhost:5000/logout', { withCredentials: true });
     // Clear any error on successful logout
     setError(null);
   } catch (error) {
