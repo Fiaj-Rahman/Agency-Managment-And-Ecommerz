@@ -5,6 +5,7 @@ require('dotenv').config();
 const jwt = require('jsonwebtoken');
 const cookieParser = require('cookie-parser');
 const bcrypt = require('bcrypt');
+const { permission } = require('process');
 const saltRounds = 10; // You can adjust the salt rounds based on your security preference
 
 
@@ -76,6 +77,7 @@ async function run() {
     const ProductCollection = client.db('VarsityProject').collection('Product')
     const TourCollection = client.db('VarsityProject').collection('Tour')
     const HotelCollection = client.db('VarsityProject').collection('Hotel')
+    const VehicleCollection = client.db('VarsityProject').collection('Vehicle')
   
 
 
@@ -240,7 +242,7 @@ app.put('/registration/:id', async (req, res) => {
       try {
         // Insert product post into the database
         const newProduct = {
-          productName, description, image,defaultPrice, price, category, createDate,
+          productName, description, image,defaultPrice, price, category, createDate,permission: 'no',
           createTime
         };
         const result = await ProductCollection.insertOne(newProduct);
@@ -379,6 +381,7 @@ app.put('/registration/:id', async (req, res) => {
               startDate,
               endDate,
               images, // ইমেজ URL এর অ্যারে
+              permission: 'no',
               createDate,
               createTime
           };
@@ -425,6 +428,54 @@ app.put('/registration/:id', async (req, res) => {
     const result = await TourCollection.findOne(query);
     res.send(result);
   });
+
+
+  app.put('/tour/:id', async (req, res) => {
+    try {
+      const { id } = req.params;
+      const result = await TourCollection.updateOne(
+        { _id: new ObjectId(id) },
+        { $set: { permission: "yes" } }
+      );
+  
+      if (result.modifiedCount === 1) {
+        res.status(200).json({ 
+          success: true, 
+          message: 'Tour approved successfully' 
+        });
+      } else {
+        res.status(404).json({ 
+          success: false, 
+          message: 'Tour not found' 
+        });
+      }
+    } catch (error) {
+      res.status(500).json({ 
+        success: false, 
+        message: error.message 
+      });
+    }
+  });
+
+
+  // Backend: Delete tourCollection (DELETE)
+  app.delete('/tour-delete/:id', async (req, res) => {
+    try {
+      const { id } = req.params; // Extract the tour ID from URL parameters
+
+      // Delete the tour from the database
+      const result = await TourCollection.deleteOne({ _id: new ObjectId(id) });
+
+      if (result.deletedCount > 0) {
+        res.status(200).send({ message: 'tour deleted successfully' });
+      } else {
+        res.status(404).send({ message: 'tour not found' });
+      }
+    } catch (error) {
+      res.status(500).send({ message: 'An error occurred while deleting the tour.', error });
+    }
+  });
+
 
 
 
@@ -483,6 +534,7 @@ app.put('/registration/:id', async (req, res) => {
             createDate: createDate || new Date().toISOString().split('T')[0],
             createTime: createTime || new Date().toLocaleTimeString(),
             status: 'available',
+            permission: 'no',
             rating: 0,
             bookings: []
         };
@@ -521,33 +573,200 @@ app.get('/hotel', async (req, res) => {
 });
 
 
+app.put('/hotel/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+    const result = await HotelCollection.updateOne(
+      { _id: new ObjectId(id) },
+      { $set: { permission: "yes" } }
+    );
 
- // tour details 
- app.get('/tour/:id', async (req, res) => {
-  const id = req.params.id;
-  const query = { _id: new ObjectId(id) };
-  const result = await TourCollection.findOne(query);
-  res.send(result);
+    if (result.modifiedCount === 1) {
+      res.status(200).json({ 
+        success: true, 
+        message: 'Hotel approved successfully' 
+      });
+    } else {
+      res.status(404).json({ 
+        success: false, 
+        message: 'Hotel not found' 
+      });
+    }
+  } catch (error) {
+    res.status(500).json({ 
+      success: false, 
+      message: error.message 
+    });
+  }
 });
 
 
-
-app.delete('/hotel-delete/:id', async (req, res) => {
+app.delete('/hotel/:id', async (req, res) => {
   try {
-    const { id } = req.params; // Extract the product ID from URL parameters
+    const { id } = req.params; // Extract the hotel ID from URL parameters
 
-    // Delete the product from the database
+    // Delete the hotel from the database
     const result = await HotelCollection.deleteOne({ _id: new ObjectId(id) });
 
     if (result.deletedCount > 0) {
-      res.status(200).send({ message: 'product deleted successfully' });
+      res.status(200).send({ message: 'hotel deleted successfully' });
     } else {
-      res.status(404).send({ message: 'product not found' });
+      res.status(404).send({ message: 'hotel not found' });
     }
   } catch (error) {
-    res.status(500).send({ message: 'An error occurred while deleting the product.', error });
+    res.status(500).send({ message: 'An error occurred while deleting the hotel.', error });
   }
 });
+
+
+
+
+
+// Vehicle Collection Here
+
+
+app.post('/vehicles', async (req, res) => {
+  const {
+    vehicleName,
+    type,
+    brand,
+    model,
+    price,
+    seatingCapacity,
+    transmission,
+    fuelType,
+    location,
+    district,
+    description,
+    amenities,
+    images,
+    createdAt
+  } = req.body;
+
+  // 🛑 Validation
+  if (
+    !vehicleName ||
+    !brand ||
+    !model ||
+    !price ||
+    !seatingCapacity ||
+    !location ||
+    !district ||
+    !description ||
+    !images ||
+    images.length === 0
+  ) {
+    return res.status(400).json({
+      success: false,
+      message: 'সব তথ্য প্রদান করা আবশ্যক এবং অন্তত একটি ছবি আপলোড করতে হবে।'
+    });
+  }
+
+  try {
+    // ✅ New vehicle data
+    const newVehicle = {
+      vehicleName,
+      brand,
+      model,
+      vehicleType: type || 'Car',
+      transmission: transmission || 'Automatic',
+      fuelType: fuelType || 'Petrol',
+      seats: parseInt(seatingCapacity) || 2,
+      pricePerHour: parseFloat(price),
+      pricePerDay: parseFloat(price) * 8, // Optional logic: 1 day = 8 hrs
+      features: Array.isArray(amenities) ? amenities : [amenities],
+      images,
+      location,
+      district,
+      description,
+      createdAt: createdAt || new Date().toISOString(),
+      status: 'available',
+      permission: 'no',
+      rating: 0,
+      bookings: []
+    };
+
+    const result = await VehicleCollection.insertOne(newVehicle);
+
+    if (result.acknowledged) {
+      return res.status(201).json({
+        success: true,
+        message: 'গাড়ি সফলভাবে যুক্ত হয়েছে',
+        vehicleId: result.insertedId
+      });
+    } else {
+      return res.status(500).json({
+        success: false,
+        message: 'গাড়ি যুক্ত করতে সমস্যা হয়েছে'
+      });
+    }
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      message: error.message
+    });
+  }
+});
+
+
+app.get('/vehicles', async (req, res) => {
+  try {
+    const vehicles = await VehicleCollection.find().toArray();
+    res.status(200).json(vehicles);
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+});
+
+
+
+// Approve Vehicle Route
+app.put('/vehicles/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+    const result = await VehicleCollection.updateOne(
+      { _id: new ObjectId(id) },
+      { $set: { permission: "yes" } }
+    );
+
+    if (result.modifiedCount === 1) {
+      res.status(200).json({ 
+        success: true, 
+        message: 'Vehicle approved successfully' 
+      });
+    } else {
+      res.status(404).json({ 
+        success: false, 
+        message: 'Vehicle not found' 
+      });
+    }
+  } catch (error) {
+    res.status(500).json({ 
+      success: false, 
+      message: error.message 
+    });
+  }
+});
+
+
+
+    // Backend: Delete VehicleCollection (DELETE)
+    app.delete('/vehicles/:id', async (req, res) => {
+      try {
+        const { id } = req.params; // Extract the product ID from URL parameters
+
+        // Delete the Vehicle from the database
+        const result = await VehicleCollection.deleteOne({ _id: new ObjectId(id) });
+
+        if (result.deletedCount > 0) {
+          res.status(200).send({ message: 'Vehicle deleted successfully' });
+        } else {
+          res.status(404).send({ message: 'Vehicle not found' });
+        }
+      } catch (error) {
+        res.status(500).send({ message: 'An error occurred while deleting the Vehicle.', error });
+      }
+    });
 
 
 

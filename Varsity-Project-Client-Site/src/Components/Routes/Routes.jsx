@@ -22,6 +22,11 @@ import Create_Hotel_Room from "../Inventory/Pages/Manage_Hotel/Create_Hotel_Room
 import Manage_Hotel from "../Inventory/Pages/Manage_Hotel/Manage_Hotel/Manage_Hotel";
 import Show_All_Hotels from "../Pages/Hotels/Show_All_Hotels/Show_All_Hotels";
 import Create_Vehicle from "../Inventory/Pages/Manage_Vehicle/Create_Vehicle/Create_Vehicle";
+import Vehicle_Manage from "../Inventory/Pages/Manage_Vehicle/Vehicle_Manage/Vehicle_Manage";
+import All_Vehicle from "../Pages/Vehicle/All_Vehicle/All_Vehicle";
+import Hotel_Approve from "../Inventory/Pages/Manage _Approve/Hotel_Approve/Hotel_Approve";
+import TourApprove from "../Inventory/Pages/Manage _Approve/Tour-Approve/Tour-Approve";
+import Vehicle_Approve from "../Inventory/Pages/Manage _Approve/Vehicle_Approve/Vehicle_Approve";
 
 
 
@@ -64,6 +69,14 @@ export const router = createBrowserRouter([
             {
                 path: "/hotel-room",
                 element: <Show_All_Hotels></Show_All_Hotels>
+            },
+
+
+            // Vehicle Routes
+
+            {
+                path: "/vehicle",
+                element: <All_Vehicle></All_Vehicle>
             }
 
 
@@ -127,6 +140,10 @@ export const router = createBrowserRouter([
                 path: "/dashboard/create-tour-plan",
                 element: <Create_Tour_Plan></Create_Tour_Plan>
             },
+            {
+                path: "/dashboard/tour-plan-approve",
+                element:<TourApprove></TourApprove>
+            },
 
 
             // Hotel Room Routes
@@ -139,6 +156,10 @@ export const router = createBrowserRouter([
                 path: "/dashboard/manage-hotel",
                 element:<Manage_Hotel></Manage_Hotel>
             },
+            {
+                path: "/dashboard/approve-hotel-room",
+                element:<Hotel_Approve></Hotel_Approve>
+            },
 
 
 
@@ -147,7 +168,16 @@ export const router = createBrowserRouter([
             {
                 path: "/dashboard/create-vehicle",
                 element:<Create_Vehicle></Create_Vehicle>
-            }
+            },
+            {
+            path: "/dashboard/manage-vehicle",
+            element:<Vehicle_Manage></Vehicle_Manage>
+            },
+            
+            {
+                path: "/dashboard/vehicle-approve",
+                element:<Vehicle_Approve></Vehicle_Approve>
+            },
 
         ]
     }

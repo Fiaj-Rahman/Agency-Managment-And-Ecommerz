@@ -241,3 +241,19 @@ const Manage_Tour_Plan = () => {
 };
 
 export default Manage_Tour_Plan;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

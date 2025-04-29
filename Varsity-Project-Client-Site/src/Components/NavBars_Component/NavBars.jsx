@@ -163,7 +163,7 @@ const navListItems = [
     {
         label: "Car/Bus",
         icon: FaBloggerB,
-        to: "/blog",
+        to: "/vehicle",
     },
     {
         label: "Tourist Spot",

@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import { FaPlus,FaEye , FaSearch } from "react-icons/fa";
 
 const Create_Hotel_Room = () => {
   const navigate = useNavigate();

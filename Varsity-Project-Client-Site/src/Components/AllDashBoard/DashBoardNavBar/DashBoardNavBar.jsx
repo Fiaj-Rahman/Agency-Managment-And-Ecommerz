@@ -65,7 +65,7 @@ const DashBoardNavBar = (props) => {
                 {[ 
                     { text: 'Dashboard', icon: <DashboardIcon />, link: '/dashboard/statistic' },
                     { text: 'Manage Hotel', icon: <MdOutlineManageAccounts className='text-2xl' />, link: '/dashboard/manage-hotel' },
-                    { text: 'Manage Vehicle', icon: <MdOutlineManageAccounts className='text-2xl' />, link: '/dashboard/create-vehicle' },
+                    { text: 'Manage Vehicle', icon: <MdOutlineManageAccounts className='text-2xl' />, link: '/dashboard/manage-vehicle' },
                     { text: 'Manage Tourist-Spot', icon: <MdOutlineManageAccounts className='text-2xl' />, link: '/dashboard/manage-tour-plan' },
                     { text: 'Manage Product', icon: <MdOutlineManageAccounts className='text-2xl' />, link: '/dashboard/manage-product' },
                     { text: 'Manage Agency', icon: <MdOutlineManageAccounts className='text-2xl' />, link: '/dashboard/manage-agency' },
@@ -90,9 +90,9 @@ const DashBoardNavBar = (props) => {
 
             <List>
                 {[
-                    { text: 'Approve Hotel', icon: <TiTick className='text-2xl' />, link: '/dashboard/Aprove-members' },
-                    { text: 'Approve Vehicle', icon: <TiTick className='text-2xl' />, link: '/dashboard/Aprove-members' },
-                    { text: 'Approve Tourist-Spot', icon: <TiTick className='text-2xl' />, link: '/dashboard/Aprove-members' },
+                    { text: 'Approve Hotel', icon: <TiTick className='text-2xl' />, link: '/dashboard/approve-hotel-room' },
+                    { text: 'Approve Vehicle', icon: <TiTick className='text-2xl' />, link: '/dashboard/vehicle-approve' },
+                    { text: 'Approve Tourist-Spot', icon: <TiTick className='text-2xl' />, link: '/dashboard/tour-plan-approve' },
                     { text: 'Approve Agency', icon: <TiTick className='text-2xl' />, link: '/dashboard/approve-agency' },
                    
                     { text: 'Sign Out', icon: <TbLogout className='text-2xl' />, onClick: handleSignOut },
