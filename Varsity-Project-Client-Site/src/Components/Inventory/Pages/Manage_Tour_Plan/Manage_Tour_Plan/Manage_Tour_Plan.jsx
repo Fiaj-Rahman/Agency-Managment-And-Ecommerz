@@ -34,7 +34,7 @@ const Manage_Tour_Plan = () => {
     // Handle delete
     const handleDelete = async (id) => {
         if (!window.confirm("Are you sure you want to delete this tour?")) return;
-        
+
         setLoading(true);
         try {
             await fetch(`http://localhost:5000/tour-delete/${id}`, { method: "DELETE" });
@@ -70,7 +70,7 @@ const Manage_Tour_Plan = () => {
                                 {filteredTours.length} tours available
                             </Typography>
                         </div>
-                        
+
                         <div className="w-full md:w-auto flex flex-col md:flex-row gap-3">
                             <Link to="/dashboard/create-tour-plan" className="w-full md:w-auto">
                                 <Button className="bg-blue-900 hover:bg-blue-800 flex items-center gap-2 w-full">
@@ -107,7 +107,7 @@ const Manage_Tour_Plan = () => {
                                     ))}
                                 </tr>
                             </thead>
-                            
+
                             <tbody>
                                 {currentTours.map((tour) => (
                                     <tr key={tour._id} className="hover:bg-blue-50/50 transition-colors">
@@ -164,7 +164,7 @@ const Manage_Tour_Plan = () => {
                                         {/* Gallery */}
                                         <td className="p-4 border-b border-blue-100">
                                             <div className="flex -space-x-2">
-                                                {tour.images.slice(0,3).map((img, idx) => (
+                                                {tour.images.slice(0, 3).map((img, idx) => (
                                                     <Avatar
                                                         key={idx}
                                                         src={img}
@@ -184,7 +184,10 @@ const Manage_Tour_Plan = () => {
                                         <td className="p-4 border-b border-blue-100">
                                             <div className="flex gap-2">
                                                 <Tooltip content="Edit">
-                                                    <Link to={`/dashboard/edit-tour/${tour._id}`}>
+                                                    <Link
+                                                        to={`/dashboard/update-tour/${tour._id}`}
+                                                        state={{ tourData: tour }}  // Pass the tour data through state
+                                                    >
                                                         <IconButton variant="text" className="text-blue-900 hover:bg-blue-100">
                                                             <PencilIcon className="h-5 w-5" />
                                                         </IconButton>
@@ -192,8 +195,8 @@ const Manage_Tour_Plan = () => {
                                                 </Tooltip>
 
                                                 <Tooltip content="Delete">
-                                                    <IconButton 
-                                                        variant="text" 
+                                                    <IconButton
+                                                        variant="text"
                                                         className="text-red-600 hover:bg-red-100"
                                                         onClick={() => handleDelete(tour._id)}
                                                     >
@@ -214,7 +217,7 @@ const Manage_Tour_Plan = () => {
                     <Typography className="text-gray-600 mb-2 md:mb-0">
                         Showing {currentTours.length} of {filteredTours.length} results
                     </Typography>
-                    
+
                     <div className="flex gap-2">
                         <Button
                             variant="outlined"
@@ -224,7 +227,7 @@ const Manage_Tour_Plan = () => {
                         >
                             Previous
                         </Button>
-                        
+
                         <Button
                             variant="outlined"
                             size="sm"

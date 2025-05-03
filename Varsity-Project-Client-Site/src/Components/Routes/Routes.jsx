@@ -27,7 +27,13 @@ import All_Vehicle from "../Pages/Vehicle/All_Vehicle/All_Vehicle";
 import Hotel_Approve from "../Inventory/Pages/Manage _Approve/Hotel_Approve/Hotel_Approve";
 import TourApprove from "../Inventory/Pages/Manage _Approve/Tour-Approve/Tour-Approve";
 import Vehicle_Approve from "../Inventory/Pages/Manage _Approve/Vehicle_Approve/Vehicle_Approve";
-
+import View_Hotel from "../Pages/Hotels/View_Hotel/View_Hotel";
+import View_Vehicle from "../Pages/Vehicle/View_Vehicle/View_Vehicle";
+import About_Us from "../Pages/About_Us/About_Us";
+import Contact_Us from "../Pages/Contact_Us/Contact_Us";
+import Update_Vehicle from "../Inventory/Pages/Manage_Vehicle/Update_Vehicle/Update_Vehicle";
+import Edit_Tour_Plan from "../Inventory/Pages/Manage_Tour_Plan/Edit_Tour_Plan/Edit_Tour_Plan";
+import Edit_Hotel_Room from "../Inventory/Pages/Manage_Hotel/Edit_Hotel_Room/Edit_Hotel_Room";
 
 
 
@@ -70,6 +76,10 @@ export const router = createBrowserRouter([
                 path: "/hotel-room",
                 element: <Show_All_Hotels></Show_All_Hotels>
             },
+            {
+                path:"/hotel-room/:id",
+                element: <View_Hotel></View_Hotel>
+            },
 
 
             // Vehicle Routes
@@ -77,6 +87,25 @@ export const router = createBrowserRouter([
             {
                 path: "/vehicle",
                 element: <All_Vehicle></All_Vehicle>
+            },
+            {
+                path: "/vehicle/:id",
+                element:<View_Vehicle></View_Vehicle>
+            },
+
+
+            // About Us 
+            {
+                path: "/about-us",
+                element: <About_Us></About_Us>
+            },
+
+
+            //Contact Us
+
+            {
+                path: "/contact-us",
+                element: <Contact_Us></Contact_Us>
             }
 
 
@@ -144,6 +173,10 @@ export const router = createBrowserRouter([
                 path: "/dashboard/tour-plan-approve",
                 element:<TourApprove></TourApprove>
             },
+            {
+                path: "/dashboard/update-tour/:id",
+                element: <Edit_Tour_Plan></Edit_Tour_Plan>
+            },
 
 
             // Hotel Room Routes
@@ -159,6 +192,10 @@ export const router = createBrowserRouter([
             {
                 path: "/dashboard/approve-hotel-room",
                 element:<Hotel_Approve></Hotel_Approve>
+            },
+            {
+                path: "/dashboard/update-hotel/:id",
+                element: <Edit_Hotel_Room></Edit_Hotel_Room>
             },
 
 
@@ -178,6 +215,10 @@ export const router = createBrowserRouter([
                 path: "/dashboard/vehicle-approve",
                 element:<Vehicle_Approve></Vehicle_Approve>
             },
+            {
+                path: "/dashboard/update-vehicle/:id",
+                element:<Update_Vehicle></Update_Vehicle>
+            }
 
         ]
     }

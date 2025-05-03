@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 
 const Vehicle_Section = () => {
   const [vehicles, setVehicles] = useState([]);
@@ -34,6 +35,7 @@ const Vehicle_Section = () => {
           key={vehicle._id}
           className="group bg-white rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 ease-out overflow-hidden"
         >
+          <Link to={`vehicle/${vehicle._id}`}>
           <div className="relative overflow-hidden">
             <img
               src={vehicle.images[0] || "https://via.placeholder.com/300"}
@@ -83,6 +85,7 @@ const Vehicle_Section = () => {
               </div>
             </div>
           </div>
+          </Link>
         </div>
       ))}
     </div>

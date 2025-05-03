@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 
 const Travel_Package_Section = () => {
     const [packages, setPackages] = useState([]);
@@ -39,6 +40,7 @@ const Travel_Package_Section = () => {
                             key={pkg._id}
                             className="group bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 ease-[cubic-bezier(0.4,0,0.2,1)] overflow-hidden"
                         >
+                            <Link to={`/tour-plan/${pkg._id}`}>
                             <div className="relative overflow-hidden">
                                 <div className="h-60 relative">
                                     <img
@@ -102,6 +104,7 @@ const Travel_Package_Section = () => {
                                     </div>
                                 </div>
                             </div>
+                            </Link>
                         </div>
                     ))}
                 </div>

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { PencilIcon, TrashIcon, CurrencyDollarIcon, HomeModernIcon, UserGroupIcon } from "@heroicons/react/24/outline";
 import { Card, CardHeader, Input, Typography, Button, CardBody, Avatar, IconButton, Tooltip, CardFooter } from "@material-tailwind/react";
 import { Link } from "react-router-dom";
-import { FaPlus,FaEye , FaSearch } from "react-icons/fa";
+import { FaPlus, FaEye, FaSearch } from "react-icons/fa";
 import axios from "axios";
 import { toast } from "react-toastify";
 
@@ -34,7 +34,7 @@ const Manage_Hotel = () => {
 
   const handleDelete = async (id) => {
     if (!window.confirm("Are you sure you want to delete this hotel?")) return;
-    
+
     setLoading(true);
     try {
       await axios.delete(`http://localhost:5000/hotel/${id}`);
@@ -71,7 +71,7 @@ const Manage_Hotel = () => {
                 {filteredHotels.length} hotels available
               </Typography>
             </div>
-            
+
             <div className="w-full md:w-auto flex flex-col md:flex-row gap-3">
               <Link to="/dashboard/create-hotel-room" className="w-full md:w-auto">
                 <Button className="bg-blue-900 hover:bg-blue-800 flex items-center gap-2 w-full">
@@ -108,7 +108,7 @@ const Manage_Hotel = () => {
                   ))}
                 </tr>
               </thead>
-              
+
               <tbody>
                 {currentHotels.map((hotel) => (
                   <tr key={hotel._id} className="hover:bg-blue-50/50 transition-colors">
@@ -153,11 +153,10 @@ const Manage_Hotel = () => {
 
                     {/* Status */}
                     <td className="p-4 border-b border-blue-100">
-                      <span className={`px-2 py-1 rounded-full text-sm ${
-                        hotel.status === 'available' 
-                          ? 'bg-green-100 text-green-800' 
+                      <span className={`px-2 py-1 rounded-full text-sm ${hotel.status === 'available'
+                          ? 'bg-green-100 text-green-800'
                           : 'bg-red-100 text-red-800'
-                      }`}>
+                        }`}>
                         {hotel.status}
                       </span>
                     </td>
@@ -165,7 +164,7 @@ const Manage_Hotel = () => {
                     {/* Gallery */}
                     <td className="p-4 border-b border-blue-100">
                       <div className="flex -space-x-2">
-                        {hotel.images.slice(0,3).map((img, idx) => (
+                        {hotel.images.slice(0, 3).map((img, idx) => (
                           <Avatar
                             key={idx}
                             src={img}
@@ -185,8 +184,8 @@ const Manage_Hotel = () => {
                     <td className="p-4 border-b border-blue-100">
                       <div className="flex gap-2">
                         <Tooltip content="View">
-                          <IconButton 
-                            variant="text" 
+                          <IconButton
+                            variant="text"
                             className="text-blue-900 hover:bg-blue-100"
                             onClick={() => setSelectedHotel(hotel)}
                           >
@@ -195,7 +194,10 @@ const Manage_Hotel = () => {
                         </Tooltip>
 
                         <Tooltip content="Edit">
-                          <Link to={`/dashboard/update-hotel/${hotel._id}`}>
+                          <Link
+                            to={`/dashboard/update-hotel/${hotel._id}`}
+                            state={{ hotelData: hotel }}  // Pass the hotel data through state
+                          >
                             <IconButton variant="text" className="text-green-600 hover:bg-green-100">
                               <PencilIcon className="h-5 w-5" />
                             </IconButton>
@@ -203,8 +205,8 @@ const Manage_Hotel = () => {
                         </Tooltip>
 
                         <Tooltip content="Delete">
-                          <IconButton 
-                            variant="text" 
+                          <IconButton
+                            variant="text"
                             className="text-red-600 hover:bg-red-100"
                             onClick={() => handleDelete(hotel._id)}
                           >
@@ -225,7 +227,7 @@ const Manage_Hotel = () => {
           <Typography className="text-gray-600 mb-2 md:mb-0">
             Showing {currentHotels.length} of {filteredHotels.length} results
           </Typography>
-          
+
           <div className="flex gap-2">
             <Button
               variant="outlined"
@@ -235,7 +237,7 @@ const Manage_Hotel = () => {
             >
               Previous
             </Button>
-            
+
             <Button
               variant="outlined"
               size="sm"
@@ -253,7 +255,7 @@ const Manage_Hotel = () => {
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
           <div className="bg-white rounded-lg p-6 max-w-2xl w-full">
             <h2 className="text-2xl font-bold mb-4">{selectedHotel.hotelName}</h2>
-            
+
             <div className="grid grid-cols-2 gap-4 mb-4">
               <div>
                 <p className="font-semibold">Location:</p>
@@ -277,7 +279,7 @@ const Manage_Hotel = () => {
               <p className="font-semibold">Amenities:</p>
               <div className="flex flex-wrap gap-2">
                 {selectedHotel.amenities.map((amenity, index) => (
-                  <span 
+                  <span
                     key={index}
                     className="bg-blue-100 text-blue-800 px-2 py-1 rounded"
                   >

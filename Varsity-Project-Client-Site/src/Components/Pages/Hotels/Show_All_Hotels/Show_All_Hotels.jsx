@@ -4,6 +4,7 @@ import { FiSearch, FiStar, FiMapPin, FiUsers, FiGrid } from 'react-icons/fi';
 import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
 // import Loader from '../components/Loader';
 import Error from '../../ErrorPage/ErrorPage';
+import { Link } from 'react-router-dom';
 
 const Show_All_Hotels = () => {
   const [hotels, setHotels] = useState([]);
@@ -226,12 +227,14 @@ const Show_All_Hotels = () => {
       </span>
       <span className="text-gray-500 font-medium ml-1">/night</span>
     </div>
-    <button 
+   <Link to={`/hotel-room/${hotel._id}`}>
+   <button 
       className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white px-6 py-3 rounded-xl font-semibold shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105"
-      onClick={() => setViewImage(hotel.images)}
+
     >
       Book Now
     </button>
+   </Link>
   </div>
 </div>
             </div>

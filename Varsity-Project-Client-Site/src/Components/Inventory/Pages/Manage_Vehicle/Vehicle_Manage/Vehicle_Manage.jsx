@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { PencilIcon, TrashIcon, CurrencyDollarIcon, UserGroupIcon, ChartBarIcon } from "@heroicons/react/24/outline";
 import { Card, CardHeader, Input, Typography, Button, CardBody, Avatar, IconButton, Tooltip, CardFooter } from "@material-tailwind/react";
 import { Link } from "react-router-dom";
-import { FaPlus, FaSearch,FaEye } from "react-icons/fa";
+import { FaPlus, FaSearch, FaEye } from "react-icons/fa";
 import { toast } from "react-toastify";
 import axios from "axios";
 
@@ -46,7 +46,7 @@ const Vehicle_Manage = () => {
       setLoading(false);
     }
   };
-  
+
 
   // Search and pagination
   const filteredVehicles = vehicles.filter(vehicle =>
@@ -167,8 +167,8 @@ const Vehicle_Manage = () => {
                     {/* Status */}
                     <td className="p-4 border-b border-blue-100">
                       <span className={`px-2 py-1 rounded-full text-sm ${vehicle.status === 'available'
-                          ? 'bg-green-100 text-green-800'
-                          : 'bg-red-100 text-red-800'
+                        ? 'bg-green-100 text-green-800'
+                        : 'bg-red-100 text-red-800'
                         }`}>
                         {vehicle.status}
                       </span>
@@ -208,7 +208,10 @@ const Vehicle_Manage = () => {
                         </Tooltip>
 
                         <Tooltip content="Edit">
-                          <Link to={`/dashboard/update-vehicle/${vehicle._id}`}>
+                          <Link
+                            to={`/dashboard/update-vehicle/${vehicle._id}`}
+                            state={{ vehicleData: vehicle }}  // Pass the vehicle data here
+                          >
                             <IconButton variant="text" className="text-blue-900 hover:bg-blue-100">
                               <PencilIcon className="h-5 w-5" />
                             </IconButton>

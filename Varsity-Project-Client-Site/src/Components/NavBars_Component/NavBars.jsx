@@ -43,12 +43,12 @@ const profileMenuItems = [
     {
         label: "About Us",
         icon: InboxArrowDownIcon,
-        to: "/Renew-subscription",
+        to: "/about-us",
     },
     {
         label: "Contact Us",
         icon: InboxArrowDownIcon,
-        to: "/Renew-subscription",
+        to: "/contact-us",
     },
     {
         label: "Sign Out",

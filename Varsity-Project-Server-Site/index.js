@@ -14,7 +14,7 @@ const port = process.env.PORT || 5000;
 
 // Middleware setup
 const corsOptions = {
-  origin: ['http://localhost:5173', 'http://localhost:5174','https://project-fcc5c.web.app','https://project-fcc5c.firebaseapp.com','https://singular-brioche-95c8c1.netlify.app'],
+  origin: ['http://localhost:5173', 'http://localhost:5174','https://project-fcc5c.web.app','https://project-fcc5c.firebaseapp.com','https://incomparable-salmiakki-5193b1.netlify.app'],
   credentials: true,
   optionSuccessStatus: 200,
 }
@@ -457,6 +457,61 @@ app.put('/registration/:id', async (req, res) => {
     }
   });
 
+ 
+
+
+// UPDATE tour
+app.put('/update-tour/:id', async (req, res) => {
+  const { id } = req.params;
+  const { 
+    touristSpotName, 
+    touristSpotDetails, 
+    totalTourPrice, 
+    price, 
+    startDate, 
+    endDate, 
+    images,
+    updatedAt
+  } = req.body;
+
+  try {
+    const updatedTour = {
+      touristSpotName,
+      touristSpotDetails,
+      totalTourPrice,
+      price,
+      startDate,
+      endDate,
+      images,
+      updatedAt,
+      permission: 'no'
+    };
+
+    const result = await TourCollection.updateOne(
+      { _id: new ObjectId(id) },
+      { $set: updatedTour }
+    );
+
+    if (result.modifiedCount > 0) {
+      return res.status(200).json({ 
+        success: true, 
+        message: 'Tour updated successfully' 
+      });
+    } else {
+      return res.status(404).json({ 
+        success: false, 
+        message: 'Tour not found or no changes made' 
+      });
+    }
+  } catch (error) {
+    return res.status(500).json({ 
+      success: false, 
+      message: error.message 
+    });
+  }
+});
+
+
 
   // Backend: Delete tourCollection (DELETE)
   app.delete('/tour-delete/:id', async (req, res) => {
@@ -573,6 +628,16 @@ app.get('/hotel', async (req, res) => {
 });
 
 
+
+// hotel details 
+app.get('/hotel/:id', async (req, res) => {
+  const id = req.params.id;
+  const query = { _id: new ObjectId(id) };
+  const result = await HotelCollection.findOne(query);
+  res.send(result);
+});
+
+
 app.put('/hotel/:id', async (req, res) => {
   try {
     const { id } = req.params;
@@ -599,6 +664,64 @@ app.put('/hotel/:id', async (req, res) => {
     });
   }
 });
+
+
+// UPDATE hotel
+app.put('/update-hotel/:id', async (req, res) => {
+  const { id } = req.params;
+  const { 
+    hotelName,
+    location,
+    district,
+    description,
+    price,
+    roomType,
+    amenities,
+    capacity,
+    images,
+    updatedAt
+  } = req.body;
+
+  try {
+    const updatedHotel = {
+      hotelName,
+      location,
+      district,
+      description,
+      price: parseFloat(price),
+      roomType,
+      amenities: Array.isArray(amenities) ? amenities : [amenities],
+      capacity: parseInt(capacity),
+      images,
+      updatedAt,
+      status: 'available',
+      permission: 'no'
+    };
+
+    const result = await HotelCollection.updateOne(
+      { _id: new ObjectId(id) },
+      { $set: updatedHotel }
+    );
+
+    if (result.modifiedCount > 0) {
+      return res.status(200).json({ 
+        success: true, 
+        message: 'Hotel updated successfully' 
+      });
+    } else {
+      return res.status(404).json({ 
+        success: false, 
+        message: 'Hotel not found or no changes made' 
+      });
+    }
+  } catch (error) {
+    return res.status(500).json({ 
+      success: false, 
+      message: error.message 
+    });
+  }
+});
+
 
 
 app.delete('/hotel/:id', async (req, res) => {
@@ -719,6 +842,19 @@ app.get('/vehicles', async (req, res) => {
 });
 
 
+// Vehicle details 
+app.get('/vehicle/:id', async (req, res) => {
+  const id = req.params.id;
+  const query = { _id: new ObjectId(id) };
+  const result = await VehicleCollection.findOne(query);
+  res.send(result);
+});
+
+
+
+
+
+
 
 // Approve Vehicle Route
 app.put('/vehicles/:id', async (req, res) => {
@@ -744,6 +880,82 @@ app.put('/vehicles/:id', async (req, res) => {
     res.status(500).json({ 
       success: false, 
       message: error.message 
+    });
+  }
+});
+
+
+// update vehicle 
+app.put('/update-vehicles/:id', async (req, res) => {
+  const { id } = req.params;
+  const {
+    vehicleName,
+    vehicleType,
+    brand,
+    model,
+    pricePerHour,
+    pricePerDay,
+    seats,
+    transmission,
+    fuelType,
+    location,
+    district,
+    description,
+    features,
+    images
+  } = req.body;
+
+  // 🛑 Validation
+  if (
+    !vehicleName
+  ) {
+    return res.status(400).json({
+      success: false,
+      message: 'সব তথ্য প্রদান করা আবশ্যক এবং অন্তত একটি ছবি থাকতে হবে।'
+    });
+  }
+
+  try {
+    // ✅ Update vehicle data
+    const updatedVehicle = {
+      vehicleName,
+      brand,
+      model,
+      vehicleType: vehicleType || 'Car',
+      transmission: transmission || 'Automatic',
+      fuelType: fuelType || 'Petrol',
+      seats: parseInt(seats) || 2,
+      pricePerHour: parseFloat(pricePerHour),
+      pricePerDay: pricePerDay || parseFloat(pricePerHour) * 8,
+      features: Array.isArray(features) ? features : [features],
+      images,
+      location,
+      district,
+      description,
+      updatedAt: new Date().toISOString()
+    };
+
+    const result = await VehicleCollection.updateOne(
+      { _id: new ObjectId(id) },
+      { $set: updatedVehicle }
+    );
+
+    if (result.modifiedCount > 0) {
+      return res.status(200).json({
+        success: true,
+        message: 'গাড়ি সফলভাবে আপডেট হয়েছে',
+        vehicleId: id
+      });
+    } else {
+      return res.status(404).json({
+        success: false,
+        message: 'গাড়ি খুঁজে পাওয়া যায়নি'
+      });
+    }
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      message: error.message
     });
   }
 });

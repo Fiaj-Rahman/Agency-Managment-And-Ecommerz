@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 
 const All_Vehicle = () => {
   const [vehicles, setVehicles] = useState([]);
@@ -112,6 +113,7 @@ const All_Vehicle = () => {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
           {filteredVehicles.map((vehicle) => (
             <div key={vehicle._id} className="bg-white rounded-lg shadow-md overflow-hidden">
+              <Link to={`/vehicle/${vehicle._id}`}>
               <img
                 src={vehicle.images[0]}
                 alt={vehicle.vehicleName}
@@ -138,6 +140,7 @@ const All_Vehicle = () => {
                   <p>{vehicle.seats} seats • {vehicle.transmission}</p>
                 </div>
               </div>
+              </Link>
             </div>
           ))}
         </div>
