@@ -160,7 +160,7 @@ const Create_Tour_Plan = () => {
 
         // Replace with your actual API endpoint
         const response = await axios.post(
-          "http://localhost:5000/tour",
+          "https://varsity-project-server-site.vercel.app/tour",
           tourData
         );
 

@@ -14,7 +14,7 @@ const View_Tourist = () => {
     useEffect(() => {
         const fetchTouristSpot = async () => {
             try {
-                const response = await fetch(`http://localhost:5000/tour/${id}`);
+                const response = await fetch(`https://varsity-project-server-site.vercel.app/tour/${id}`);
                 if (!response.ok) {
                     throw new Error('Tourist spot not found');
                 }

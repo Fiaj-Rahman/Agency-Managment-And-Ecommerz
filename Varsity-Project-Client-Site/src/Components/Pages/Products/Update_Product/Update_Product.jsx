@@ -131,7 +131,7 @@ const Update_Product = () => {
         image: imageUrl,
       };
 
-      const response = await axios.put(`http://localhost:5000/product-update/${adminData._id}`, updateData, {
+      const response = await axios.put(`https://varsity-project-server-site.vercel.app/product-update/${adminData._id}`, updateData, {
         headers: {
           "Content-Type": "application/json",
         },

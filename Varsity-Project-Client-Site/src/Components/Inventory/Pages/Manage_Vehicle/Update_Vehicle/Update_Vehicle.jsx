@@ -75,7 +75,7 @@ const Update_Vehicle = () => {
     if (!vehicleData) {
       const fetchVehicleData = async () => {
         try {
-          const response = await axios.get(`http://localhost:5000/vehicles/${id}`);
+          const response = await axios.get(`https://varsity-project-server-site.vercel.app/vehicles/${id}`);
           const data = response.data;
           setFormData({
             vehicleName: data.vehicleName,
@@ -201,7 +201,7 @@ const Update_Vehicle = () => {
           images: allImageUrls,
         };
 
-        await axios.put(`http://localhost:5000/update-vehicles/${id}`, vehicleData);
+        await axios.put(`https://varsity-project-server-site.vercel.app/update-vehicles/${id}`, vehicleData);
         toast.success("Vehicle updated successfully!");
         navigate("/dashboard/manage-vehicle");
       } catch (error) {

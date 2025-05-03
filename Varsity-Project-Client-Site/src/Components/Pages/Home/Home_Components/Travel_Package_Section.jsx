@@ -7,7 +7,7 @@ const Travel_Package_Section = () => {
     useEffect(() => {
         const fetchPackages = async () => {
             try {
-                const response = await fetch("http://localhost:5000/tour");
+                const response = await fetch("https://varsity-project-server-site.vercel.app/tour");
                 const data = await response.json();
                 const shuffledData = data.sort(() => Math.random() - 0.5);
                 setPackages(shuffledData);

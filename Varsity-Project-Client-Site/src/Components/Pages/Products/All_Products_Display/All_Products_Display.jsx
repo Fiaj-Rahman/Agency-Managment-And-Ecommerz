@@ -20,8 +20,8 @@ const All_Products_Display = () => {
       try {
         // Fetch product data and user data if user email is available
         const [productsResponse, userResponse] = await Promise.all([
-          fetch("http://localhost:5000/product"),
-          user?.email ? fetch(`http://localhost:5000/signup?email=${user.email}`) : null,
+          fetch("https://varsity-project-server-site.vercel.app/product"),
+          user?.email ? fetch(`https://varsity-project-server-site.vercel.app/signup?email=${user.email}`) : null,
         ]);
 
         // Check if productsResponse is OK

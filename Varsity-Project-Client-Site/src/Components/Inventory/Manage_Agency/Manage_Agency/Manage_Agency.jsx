@@ -7,7 +7,7 @@ const Manage_Agency = () => {
   useEffect(() => {
     const fetchApprovedAgencies = async () => {
       try {
-        const response = await fetch("http://localhost:5000/registration");
+        const response = await fetch("https://varsity-project-server-site.vercel.app/registration");
         const data = await response.json();
         const approvedAgencies = data.filter(agency => agency.agency === "approved");
         setAgencies(approvedAgencies);

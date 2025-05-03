@@ -16,7 +16,7 @@ const All_Vehicle = () => {
   useEffect(() => {
     const fetchVehicles = async () => {
       try {
-        const response = await fetch("http://localhost:5000/vehicles");
+        const response = await fetch("https://varsity-project-server-site.vercel.app/vehicles");
         if (!response.ok) throw new Error("Failed to fetch vehicles");
         const data = await response.json();
         setVehicles(data);

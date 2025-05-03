@@ -7,7 +7,7 @@ const Hotel_Approve = () => {
   const [hotelName, setHotelName] = useState('');
 
   useEffect(() => {
-    fetch('http://localhost:5000/hotel')
+    fetch('https://varsity-project-server-site.vercel.app/hotel')
       .then(res => res.json())
       .then(data => setHotels(data.filter(hotel => hotel.permission !== "yes")) )
   }, []);
@@ -20,7 +20,7 @@ const Hotel_Approve = () => {
 
   const confirmApprove = async () => {
     try {
-      const response = await fetch(`http://localhost:5000/hotel/${selectedHotelId}`, {
+      const response = await fetch(`https://varsity-project-server-site.vercel.app/hotel/${selectedHotelId}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -42,7 +42,7 @@ const Hotel_Approve = () => {
   const handleDelete = async (id) => {
     if (window.confirm('Are you sure you want to delete this hotel?')) {
       try {
-        const response = await fetch(`http://localhost:5000/hotel/${id}`, {
+        const response = await fetch(`https://varsity-project-server-site.vercel.app/hotel/${id}`, {
           method: 'DELETE',
         });
 

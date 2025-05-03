@@ -7,7 +7,7 @@ const Vehicle_Approve = () => {
     const [vehicleName, setVehicleName] = useState('');
   
     useEffect(() => {
-        fetch('http://localhost:5000/vehicles')
+        fetch('https://varsity-project-server-site.vercel.app/vehicles')
             .then(res => res.json())
             .then(data => setVehicles(data.filter(vehicle => vehicle.permission !== "yes")))
     }, []);
@@ -20,7 +20,7 @@ const Vehicle_Approve = () => {
 
     const confirmApprove = async () => {
         try {
-          const response = await fetch(`http://localhost:5000/vehicles/${selectedVehicleId}`, {
+          const response = await fetch(`https://varsity-project-server-site.vercel.app/vehicles/${selectedVehicleId}`, {
             method: 'PUT',
             headers: {
               'Content-Type': 'application/json',
@@ -42,7 +42,7 @@ const Vehicle_Approve = () => {
     const handleDelete = async (id) => {
         if (window.confirm('Are you sure you want to delete this vehicle?')) {
             try {
-                const response = await fetch(`http://localhost:5000/vehicles/${id}`, {
+                const response = await fetch(`https://varsity-project-server-site.vercel.app/vehicles/${id}`, {
                     method: 'DELETE',
                 });
 

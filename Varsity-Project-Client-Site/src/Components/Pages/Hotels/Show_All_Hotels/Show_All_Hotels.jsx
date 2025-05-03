@@ -30,7 +30,7 @@ const Show_All_Hotels = () => {
   useEffect(() => {
     const fetchHotels = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/hotel');
+        const response = await axios.get('https://varsity-project-server-site.vercel.app/hotel');
         setHotels(response.data);
         setLoading(false);
       } catch (err) {

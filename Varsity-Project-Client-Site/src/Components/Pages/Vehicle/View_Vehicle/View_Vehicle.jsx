@@ -18,7 +18,7 @@ const View_Vehicle = () => {
     useEffect(() => {
         const fetchVehicle = async () => {
             try {
-                const response = await fetch(`http://localhost:5000/vehicle/${id}`);
+                const response = await fetch(`https://varsity-project-server-site.vercel.app/vehicle/${id}`);
                 if (!response.ok) {
                     throw new Error('Vehicle not found');
                 }

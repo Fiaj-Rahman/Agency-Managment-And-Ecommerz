@@ -15,7 +15,7 @@ const View_Hotel = () => {
     useEffect(() => {
         const fetchHotel = async () => {
             try {
-                const response = await fetch(`http://localhost:5000/hotel/${id}`);
+                const response = await fetch(`https://varsity-project-server-site.vercel.app/hotel/${id}`);
                 if (!response.ok) {
                     throw new Error('Hotel not found');
                 }

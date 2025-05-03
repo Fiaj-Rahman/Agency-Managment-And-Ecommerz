@@ -11,7 +11,7 @@ const All_Tour_Plan = () => {
   useEffect(() => {
     const fetchTours = async () => {
       try {
-        const response = await fetch("http://localhost:5000/tour");
+        const response = await fetch("https://varsity-project-server-site.vercel.app/tour");
         if (!response.ok) throw new Error("Failed to fetch tours");
         const data = await response.json();
         setTours(data);

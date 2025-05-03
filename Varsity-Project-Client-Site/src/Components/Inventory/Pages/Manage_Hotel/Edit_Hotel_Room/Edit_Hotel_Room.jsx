@@ -64,7 +64,7 @@ const Edit_Hotel_Room = () => {
     if (!hotelData) {
       const fetchHotelData = async () => {
         try {
-          const response = await axios.get(`http://localhost:5000/hotel/${id}`);
+          const response = await axios.get(`https://varsity-project-server-site.vercel.app/hotel/${id}`);
           const data = response.data;
           
           setFormData({
@@ -203,7 +203,7 @@ const Edit_Hotel_Room = () => {
           updatedAt: new Date().toISOString()
         };
 
-        await axios.put(`http://localhost:5000/update-hotel/${id}`, hotelData);
+        await axios.put(`https://varsity-project-server-site.vercel.app/update-hotel/${id}`, hotelData);
         toast.success("Hotel room updated successfully!");
         navigate("/dashboard/manage-hotel");
       } catch (error) {

@@ -22,19 +22,19 @@ const All_Statistic_Result = () => {
         const fetchData = async () => {
             try {
                 // In a real app, you would fetch these from your APIs
-                const registrationRes = await fetch('http://localhost:5000/registration');
+                const registrationRes = await fetch('https://varsity-project-server-site.vercel.app/registration');
                 const registrations = await registrationRes.json();
                 
-                const productRes = await fetch('http://localhost:5000/product');
+                const productRes = await fetch('https://varsity-project-server-site.vercel.app/product');
                 const products = await productRes.json();
                 
-                const hotelRes = await fetch('http://localhost:5000/hotel');
+                const hotelRes = await fetch('https://varsity-project-server-site.vercel.app/hotel');
                 const hotels = await hotelRes.json();
                 
-                const vehicleRes = await fetch('http://localhost:5000/vehicles');
+                const vehicleRes = await fetch('https://varsity-project-server-site.vercel.app/vehicles');
                 const vehicles = await vehicleRes.json();
                 
-                const tourRes = await fetch('http://localhost:5000/tour');
+                const tourRes = await fetch('https://varsity-project-server-site.vercel.app/tour');
                 const tours = await tourRes.json();
 
                 // Process data

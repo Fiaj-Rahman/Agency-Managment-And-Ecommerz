@@ -7,7 +7,7 @@ const Vehicle_Section = () => {
   useEffect(() => {
     const fetchVehicles = async () => {
       try {
-        const response = await fetch("http://localhost:5000/vehicles");
+        const response = await fetch("https://varsity-project-server-site.vercel.app/vehicles");
         const data = await response.json();
         const shuffledData = data.sort(() => Math.random() - 0.5);
         setVehicles(shuffledData);

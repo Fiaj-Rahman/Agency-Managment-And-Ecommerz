@@ -23,7 +23,7 @@ const Manage_Hotel = () => {
   const fetchHotels = async () => {
     setLoading(true);
     try {
-      const response = await axios.get("http://localhost:5000/hotel");
+      const response = await axios.get("https://varsity-project-server-site.vercel.app/hotel");
       setHotels(response.data);
     } catch (error) {
       toast.error("Failed to load hotels");
@@ -37,7 +37,7 @@ const Manage_Hotel = () => {
 
     setLoading(true);
     try {
-      await axios.delete(`http://localhost:5000/hotel/${id}`);
+      await axios.delete(`https://varsity-project-server-site.vercel.app/hotel/${id}`);
       toast.success("Hotel deleted successfully");
       setHotels(hotels.filter(hotel => hotel._id !== id));
     } catch (error) {

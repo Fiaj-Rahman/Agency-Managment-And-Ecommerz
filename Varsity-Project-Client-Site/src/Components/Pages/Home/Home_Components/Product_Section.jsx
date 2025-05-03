@@ -6,7 +6,7 @@ const Product_Section = () => {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const response = await fetch("http://localhost:5000/product");
+        const response = await fetch("https://varsity-project-server-site.vercel.app/product");
         const data = await response.json();
         const shuffledData = data.sort(() => Math.random() - 0.5);
         setProducts(shuffledData);

@@ -14,7 +14,7 @@ const port = process.env.PORT || 5000;
 
 // Middleware setup
 const corsOptions = {
-  origin: ['http://localhost:5173', 'http://localhost:5174','https://project-fcc5c.web.app','https://project-fcc5c.firebaseapp.com','https://incomparable-salmiakki-5193b1.netlify.app'],
+  origin: ['http://localhost:5173', 'http://localhost:5174','https://project-fcc5c.web.app','https://prismatic-empanada-311b40.netlify.app','https://incomparable-salmiakki-5193b1.netlify.app'],
   credentials: true,
   optionSuccessStatus: 200,
 }

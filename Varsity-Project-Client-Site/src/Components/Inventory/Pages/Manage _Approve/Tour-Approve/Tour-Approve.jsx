@@ -7,7 +7,7 @@ const TourApprove = () => {
   const [tourName, setTourName] = useState('');
 
   useEffect(() => {
-    fetch('http://localhost:5000/tour')
+    fetch('https://varsity-project-server-site.vercel.app/tour')
       .then(res => res.json())
       .then(data => setTours(data.filter(tour => tour.permission !== "yes")));
   }, []);
@@ -20,7 +20,7 @@ const TourApprove = () => {
 
   const confirmApprove = async () => {
     try {
-      const response = await fetch(`http://localhost:5000/tour/${selectedTourId}`, {
+      const response = await fetch(`https://varsity-project-server-site.vercel.app/tour/${selectedTourId}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -42,7 +42,7 @@ const TourApprove = () => {
   const handleDelete = async (id) => {
     if (window.confirm('Are you sure you want to delete this tour?')) {
       try {
-        const response = await fetch(`http://localhost:5000/tour/${id}`, {
+        const response = await fetch(`https://varsity-project-server-site.vercel.app/tour/${id}`, {
           method: 'DELETE',
         });
 

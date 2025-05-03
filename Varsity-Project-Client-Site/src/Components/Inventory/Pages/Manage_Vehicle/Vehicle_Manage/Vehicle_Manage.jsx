@@ -23,7 +23,7 @@ const Vehicle_Manage = () => {
   const fetchVehicles = async () => {
     setLoading(true);
     try {
-      const response = await axios.get("http://localhost:5000/vehicles");
+      const response = await axios.get("https://varsity-project-server-site.vercel.app/vehicles");
       setVehicles(response.data);
     } catch (error) {
       toast.error("Failed to load vehicles");
@@ -37,7 +37,7 @@ const Vehicle_Manage = () => {
 
     setLoading(true);
     try {
-      await axios.delete(`http://localhost:5000/vehicles/${id}`);
+      await axios.delete(`https://varsity-project-server-site.vercel.app/vehicles/${id}`);
       toast.success("Vehicle deleted successfully");
       setVehicles(vehicles.filter(vehicle => vehicle._id !== id));
     } catch (error) {

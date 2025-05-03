@@ -41,7 +41,7 @@ const All_Product_Manage = () => {
         const fetchProducts = async () => {
             setLoading(true); // Start loading
             try {
-                const response = await fetch("http://localhost:5000/product");
+                const response = await fetch("https://varsity-project-server-site.vercel.app/product");
                 const data = await response.json();
                 setProducts(data); // Set fetched product data
             } catch (error) {
@@ -60,7 +60,7 @@ const All_Product_Manage = () => {
 
         setLoading(true); // Start loading
 
-        fetch(`http://localhost:5000/product-delete/${id}`, { method: "DELETE" })
+        fetch(`https://varsity-project-server-site.vercel.app/product-delete/${id}`, { method: "DELETE" })
             .then(() => {
                 setProducts(products.filter((product) => product._id !== id));
                 setLoading(false); // Stop loading after deletion

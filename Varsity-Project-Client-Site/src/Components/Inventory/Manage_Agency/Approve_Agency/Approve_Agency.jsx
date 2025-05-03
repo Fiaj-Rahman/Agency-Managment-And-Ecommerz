@@ -9,7 +9,7 @@ const Approve_Agency = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch("http://localhost:5000/registration");
+        const response = await fetch("https://varsity-project-server-site.vercel.app/registration");
         const data = await response.json();
         const pendingUsers = data.filter(user => user.agency === "pending");
         setUsers(pendingUsers);
@@ -32,7 +32,7 @@ const Approve_Agency = () => {
     if (!selectedUser) return;
 
     try {
-      const response = await fetch(`http://localhost:5000/registration/${selectedUser._id}`, {
+      const response = await fetch(`https://varsity-project-server-site.vercel.app/registration/${selectedUser._id}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",

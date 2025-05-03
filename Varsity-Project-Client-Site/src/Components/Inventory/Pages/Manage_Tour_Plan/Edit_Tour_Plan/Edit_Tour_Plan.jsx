@@ -42,7 +42,7 @@ const Edit_Tour_Plan = () => {
     if (!tourData) {
       const fetchTourData = async () => {
         try {
-          const response = await axios.get(`http://localhost:5000/tour/${id}`);
+          const response = await axios.get(`https://varsity-project-server-site.vercel.app/tour/${id}`);
           const data = response.data;
           
           setFormData({
@@ -217,7 +217,7 @@ const Edit_Tour_Plan = () => {
           updatedAt: new Date().toISOString()
         };
 
-        await axios.put(`http://localhost:5000/update-tour/${id}`, tourData);
+        await axios.put(`https://varsity-project-server-site.vercel.app/update-tour/${id}`, tourData);
         toast.success("Tour updated successfully!");
         navigate("/dashboard/manage-tour-plan");
       } catch (error) {

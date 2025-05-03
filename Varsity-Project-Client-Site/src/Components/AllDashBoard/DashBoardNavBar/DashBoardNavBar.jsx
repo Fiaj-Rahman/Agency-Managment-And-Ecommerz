@@ -143,7 +143,7 @@ const DashBoardNavBar = (props) => {
                     <Typography variant="h6" noWrap component="div">
                         <div>
                             <div><Link to={'/'} style={{ textDecoration: 'none', color: 'inherit' }}>
-                                <span className="text-indigo-100 font-bold">Group Project</span>
+                                <span className="text-indigo-100 font-bold">HotelTourCar.com</span>
                             </Link>
                             </div>
                         </div>

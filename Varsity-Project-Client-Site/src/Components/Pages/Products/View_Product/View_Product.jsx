@@ -7,7 +7,7 @@ const View_Product = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        fetch(`http://localhost:5000/product/${id}`)
+        fetch(`https://varsity-project-server-site.vercel.app/product/${id}`)
             .then((response) => response.json())
             .then((data) => setProduct(data))
             .catch((error) => console.error("Error:", error));

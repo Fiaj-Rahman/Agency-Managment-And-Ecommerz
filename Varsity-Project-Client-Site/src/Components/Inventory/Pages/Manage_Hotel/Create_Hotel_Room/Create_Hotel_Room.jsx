@@ -132,7 +132,7 @@ const Create_Hotel_Room = () => {
           createdAt: new Date().toISOString()
         };
 
-        await axios.post("http://localhost:5000/hotels", hotelData);
+        await axios.post("https://varsity-project-server-site.vercel.app/hotels", hotelData);
         toast.success("Hotel room created successfully!");
         navigate("/dashboard/manage-hotel-rooms");
       } catch (error) {

@@ -136,7 +136,7 @@ const Create_Vehicle = () => {
           createdAt: new Date().toISOString()
         };
 
-        await axios.post("http://localhost:5000/vehicles", vehicleData);
+        await axios.post("https://varsity-project-server-site.vercel.app/vehicles", vehicleData);
         toast.success("Vehicle created successfully!");
         navigate("/dashboard/manage-vehicles");
       } catch (error) {

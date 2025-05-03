@@ -7,7 +7,7 @@ const View_Tour_Plan = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        fetch(`http://localhost:5000/tour/${id}`)
+        fetch(`https://varsity-project-server-site.vercel.app/tour/${id}`)
             .then((response) => response.json())
             .then((data) => setTour(data))
             .catch((error) => console.error("Error:", error));

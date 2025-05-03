@@ -66,7 +66,7 @@ function ProfileMenu() {
     useEffect(() => {
         const fetchUserData = async () => {
             try {
-                const response = await axios.get("http://localhost:5000/registration");
+                const response = await axios.get("https://varsity-project-server-site.vercel.app/registration");
                 const data = response.data;
                 const userData = data.find(item => item.email === user?.email);
                 setRegistrationData(userData);
@@ -205,7 +205,7 @@ export function NavBars() {
     useEffect(() => {
         const fetchUserData = async () => {
             try {
-                const response = await axios.get("http://localhost:5000/registration");
+                const response = await axios.get("https://varsity-project-server-site.vercel.app/registration");
                 const data = response.data;
                 const userData = data.find(item => item.email === user?.email);
                 setRegistrationData(userData);
@@ -228,7 +228,7 @@ export function NavBars() {
 
         try {
             // Make API request to backend to add "Agency: 'pending'" to the user
-            const response = await axios.put("http://localhost:5000/become-agency", {
+            const response = await axios.put("https://varsity-project-server-site.vercel.app/become-agency", {
                 email: user.email,
             });
 
@@ -266,7 +266,7 @@ export function NavBars() {
             <div className="relative mx-auto flex items-center justify-between text-white">
                 <Typography as="a" href="#" className="mr-4 ml-2 cursor-pointer py-1.5 font-bold">
                     <h4 className="text-sm sm:text-lg md:text-2xl lg:text-2xl">
-                        <span className="text-blue-200">Project</span> <span className="text-green-200">Group</span>
+                        <span className="text-blue-200">HotelTourCar</span><span className="text-green-200">.com</span>
                     </h4>
                 </Typography>
 
