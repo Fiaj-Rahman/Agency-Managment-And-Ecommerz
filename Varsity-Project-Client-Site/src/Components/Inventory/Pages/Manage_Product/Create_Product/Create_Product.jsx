@@ -125,8 +125,8 @@ const Create_Product = () => {
         const productData = {
           productName: formData.productName,
           description: formData.description,
-          price: `${formData.price}৳`, // Add the symbol after the price
-          defaultPrice:`${formData.defaultPrice}৳`,
+          price: `${formData.price}`, // Add the symbol after the price
+          defaultPrice:`${formData.defaultPrice}`,
           category: formData.category,
           image: imageUrl,
           createDate,

@@ -80,7 +80,7 @@ const Hotel_Section = () => {
                       </p>
                       <div className="flex items-center">
                         <span className="text-sm mr-2">👨👩👧</span>
-                        <span>{hotel.capacity} Guests</span>
+                        <span className="text-gray-800 font-bold">{hotel.capacity} Guests</span>
                       </div>
                     </div>
 

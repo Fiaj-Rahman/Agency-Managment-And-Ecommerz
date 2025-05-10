@@ -35,11 +35,7 @@ const profileMenuItems = [
         icon: UserCircleIcon,
         to: "/dashboard/statistic"
     },
-    {
-        label: "Profile",
-        icon: Cog6ToothIcon,
-        to: "/profile",
-    },
+   
     {
         label: "About Us",
         icon: InboxArrowDownIcon,

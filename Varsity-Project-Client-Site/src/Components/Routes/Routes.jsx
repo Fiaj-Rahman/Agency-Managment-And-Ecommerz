@@ -34,6 +34,9 @@ import Contact_Us from "../Pages/Contact_Us/Contact_Us";
 import Update_Vehicle from "../Inventory/Pages/Manage_Vehicle/Update_Vehicle/Update_Vehicle";
 import Edit_Tour_Plan from "../Inventory/Pages/Manage_Tour_Plan/Edit_Tour_Plan/Edit_Tour_Plan";
 import Edit_Hotel_Room from "../Inventory/Pages/Manage_Hotel/Edit_Hotel_Room/Edit_Hotel_Room";
+import PaymentPage from "../Pages/Payment_Page/PaymentPage";
+import Payment_Success from "../Pages/Payment_Page/Payment_Success";
+import Payment_Fail from "../Pages/Payment_Page/Payment_Fail";
 
 
 
@@ -106,6 +109,21 @@ export const router = createBrowserRouter([
             {
                 path: "/contact-us",
                 element: <Contact_Us></Contact_Us>
+            },
+
+            // Payment Page 
+
+            {
+                path: "/Submit-Details/:id",
+                element: <PaymentPage></PaymentPage>
+            },
+            {
+                path: "/payment/success/:tranId",
+                element: <Payment_Success></Payment_Success>
+            },
+            {
+                path: "/payment/fail/:tranId",
+                element: <Payment_Fail></Payment_Fail>
             }
 
 
