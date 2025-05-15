@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import axios from "axios"; // Import axios
+import axios from "axios";
 import {
     Navbar,
     MobileNav,
@@ -33,9 +33,9 @@ const profileMenuItems = [
     {
         label: "Dashboard",
         icon: UserCircleIcon,
-        to: "/dashboard/statistic"
+        to: "/dashboard/statistic",
+        show: (role) => role !== "user" // Only show if role is not "user"
     },
-   
     {
         label: "About Us",
         icon: InboxArrowDownIcon,
@@ -111,7 +111,10 @@ function ProfileMenu() {
                 </Button>
             </MenuHandler>
             <MenuList className="p-1 bg-white shadow-lg rounded-lg">
-                {profileMenuItems.map(({ label, icon, to }, key) => {
+                {profileMenuItems.map(({ label, icon, to, show }, key) => {
+                    const shouldShow = show ? show(registrationData?.role) : true;
+                    if (!shouldShow) return null;
+
                     const isLastItem = key === profileMenuItems.length - 1;
                     return (
                         <MenuItem
@@ -144,7 +147,6 @@ const navListItems = [
         icon: FaHome,
         to: "/",
     },
-    
     {
         label: "Products",
         icon: FaAddressBook,
@@ -155,7 +157,6 @@ const navListItems = [
         icon: FaProjectDiagram,
         to: "/hotel-room",
     },
-    
     {
         label: "Car/Bus",
         icon: FaBloggerB,
@@ -166,7 +167,6 @@ const navListItems = [
         icon: FaBloggerB,
         to: "/tour-plan",
     },
-    
 ];
 
 function NavList() {
@@ -215,7 +215,6 @@ export function NavBars() {
         }
     }, [user?.email]);
 
-    // Add Become Agency functionality
     const handleBecomeAgency = async () => {
         if (!user) {
             alert("Please log in first.");
@@ -223,7 +222,6 @@ export function NavBars() {
         }
 
         try {
-            // Make API request to backend to add "Agency: 'pending'" to the user
             const response = await axios.put("https://varsity-project-server-site.vercel.app/become-agency", {
                 email: user.email,
             });
@@ -239,12 +237,11 @@ export function NavBars() {
         }
     };
 
-    // Conditional render logic for Become Agency / Request Pending / No button when approved
     const renderAgencyButton = () => {
         if (user && registrationData?.agency === "pending") {
             return <button className="text-sm bg-gray-300 p-2 text-black font-bold rounded-lg hover:bg-gray-200" disabled>Request Pending</button>;
         } else if (user && registrationData?.agency === "approved") {
-            return null; // No button when agency is approved
+            return null;
         } else if (user) {
             return (
                 <button 
@@ -266,17 +263,14 @@ export function NavBars() {
                     </h4>
                 </Typography>
 
-                {/* Centered Nav List - Visible only on large devices */}
                 <div className="hidden lg:flex-grow lg:flex lg:justify-center">
                     <NavList />
                 </div>
 
-                {/* Conditional Rendering for Become Agency / Request Pending / No button when approved */}
                 <div>
                     {renderAgencyButton()}
                 </div>
 
-                {/* Conditional Rendering for Profile Menu and Login Button */}
                 <div className="flex items-center ml-auto space-x-2">
                     {user ? (
                         <ProfileMenu />
@@ -288,7 +282,7 @@ export function NavBars() {
                         </Link>
                     )}
                 </div>
-                {/* Call Icon */}
+
                 <div className="flex items-center justify-center">
                     <Link to="tel:+8801818697777">
                         <div className="ml-1 p-1 bg-green-600 hover:bg-green-700 text-white rounded-full cursor-pointer transition-all duration-300 ease-in-out transform hover:scale-110">
@@ -297,7 +291,6 @@ export function NavBars() {
                     </Link>
                 </div>
 
-                {/* Hamburger Icon for small screens */}
                 <div className="sm:text-2xl text-blue-900 md:text-xl lg:hidden">
                     <IconButton
                         size="sm"
@@ -311,13 +304,11 @@ export function NavBars() {
                 </div>
             </div>
 
-            {/* Mobile Menu */}
             <MobileNav open={isNavOpen} className="overflow-scroll bg-gradient-to-r from-blue-500 via-teal-400 to-indigo-600">
                 <NavList />
             </MobileNav>
         </Navbar>
     );
 }
-
 
 export default NavBars;

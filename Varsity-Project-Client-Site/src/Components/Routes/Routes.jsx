@@ -37,6 +37,7 @@ import Edit_Hotel_Room from "../Inventory/Pages/Manage_Hotel/Edit_Hotel_Room/Edi
 import PaymentPage from "../Pages/Payment_Page/PaymentPage";
 import Payment_Success from "../Pages/Payment_Page/Payment_Success";
 import Payment_Fail from "../Pages/Payment_Page/Payment_Fail";
+import Manage_User from "../Inventory/Pages/Manage_User/Manage_User/Manage_User";
 
 
 
@@ -236,6 +237,13 @@ export const router = createBrowserRouter([
             {
                 path: "/dashboard/update-vehicle/:id",
                 element:<Update_Vehicle></Update_Vehicle>
+            },
+
+
+            // User manage 
+            {
+                path: "/dashboard/manage-user",
+                element: <Manage_User></Manage_User>
             }
 
         ]

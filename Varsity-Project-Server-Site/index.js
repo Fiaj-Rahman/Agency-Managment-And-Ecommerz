@@ -16,7 +16,7 @@ const port = process.env.PORT || 5000;
 
 // Middleware setup
 const corsOptions = {
-  origin: ['http://localhost:5173', 'http://localhost:5174', 'https://project-fcc5c.web.app', 'https://prismatic-empanada-311b40.netlify.app', 'https://roaring-pika-ad8604.netlify.app'],
+  origin: ['http://localhost:5173', 'http://localhost:5174', 'https://project-fcc5c.web.app', 'https://prismatic-empanada-311b40.netlify.app', 'https://aquamarine-sable-129b90.netlify.app'],
   credentials: true,
   optionSuccessStatus: 200,
 }
@@ -175,6 +175,37 @@ async function run() {
       const result = await UserCollection.find().toArray()
       res.send(result)
     });
+
+
+
+    // Update user role
+    app.patch('/registration/:id', async (req, res) => {
+      const { id } = req.params;
+      const { role } = req.body;
+
+      try {
+        // Validate role
+        const validRoles = ['user', 'admin', 'agency'];
+        if (!validRoles.includes(role)) {
+          return res.status(400).json({ success: false, message: 'Invalid role specified' });
+        }
+
+        // Update role
+        const result = await UserCollection.updateOne(
+          { _id: new ObjectId(id) },
+          { $set: { role } }
+        );
+
+        if (result.modifiedCount === 1) {
+          res.status(200).json({ success: true, message: 'Role updated successfully' });
+        } else {
+          res.status(404).json({ success: false, message: 'User not found or no changes made' });
+        }
+      } catch (error) {
+        res.status(500).json({ success: false, message: error.message });
+      }
+    });
+
 
 
 
@@ -1000,169 +1031,169 @@ async function run() {
     // SSL Commerz Payment System 
     // Hotel booking payment endpoint
 
-  // Hotel booking route
-app.post('/hotel-bookings', async (req, res) => {
-  try {
-    const { hotelId, userEmail, userName, userPhone, userAddress,totalAmount,checkInDate,checkOutDate } = req.body;
+    // Hotel booking route
+    app.post('/hotel-bookings', async (req, res) => {
+      try {
+        const { hotelId, userEmail, userName, userPhone, userAddress, totalAmount, checkInDate, checkOutDate } = req.body;
 
-    const tran_id = new ObjectId().toString();
-    const hotel = await HotelCollection.findOne({ _id: new ObjectId(hotelId) });
+        const tran_id = new ObjectId().toString();
+        const hotel = await HotelCollection.findOne({ _id: new ObjectId(hotelId) });
 
-    if (!hotel) {
-      return res.status(404).json({ message: 'Hotel not found' });
-    }
+        if (!hotel) {
+          return res.status(404).json({ message: 'Hotel not found' });
+        }
 
-    const paymentData = {
-      total_amount: totalAmount,
-      currency: 'BDT',
-      tran_id: tran_id,
-      success_url: `https://varsity-project-server-site.vercel.app/payment/success/${tran_id}`,
-      fail_url: `https://varsity-project-server-site.vercel.app/payment/fail/${tran_id}`,
-      cancel_url: 'http://localhost:3030/cancel',
-      ipn_url: 'http://localhost:3030/ipn',
-      shipping_method: 'Courier',
-      product_name: hotel.hotelName,
-      product_category: 'Hotel Booking',
-      product_profile: 'physical-goods',
+        const paymentData = {
+          total_amount: totalAmount,
+          currency: 'BDT',
+          tran_id: tran_id,
+          success_url: `https://varsity-project-server-site.vercel.app/payment/success/${tran_id}`,
+          fail_url: `https://varsity-project-server-site.vercel.app/payment/fail/${tran_id}`,
+          cancel_url: 'http://localhost:3030/cancel',
+          ipn_url: 'http://localhost:3030/ipn',
+          shipping_method: 'Courier',
+          product_name: hotel.hotelName,
+          product_category: 'Hotel Booking',
+          product_profile: 'physical-goods',
 
-      cus_name: 'Customer Name',
-      cus_email: 'customer@example.com',
-      cus_add1: userAddress,
-      cus_add2: userAddress,
-      cus_city: 'Dhaka',
-      cus_state: 'Dhaka',
-      cus_postcode: '1000',
-      cus_country: 'Bangladesh',
-      cus_phone: '01711111111',
-      cus_fax: '01711111111',
+          cus_name: 'Customer Name',
+          cus_email: 'customer@example.com',
+          cus_add1: userAddress,
+          cus_add2: userAddress,
+          cus_city: 'Dhaka',
+          cus_state: 'Dhaka',
+          cus_postcode: '1000',
+          cus_country: 'Bangladesh',
+          cus_phone: '01711111111',
+          cus_fax: '01711111111',
 
-      ship_name: 'Customer Name',
-      ship_add1: 'Dhaka',
-      ship_add2: 'Dhaka',
-      ship_city: 'Dhaka',
-      ship_state: 'Dhaka',
-      ship_postcode: 1000,
-      ship_country: 'Bangladesh',
-    };
+          ship_name: 'Customer Name',
+          ship_add1: 'Dhaka',
+          ship_add2: 'Dhaka',
+          ship_city: 'Dhaka',
+          ship_state: 'Dhaka',
+          ship_postcode: 1000,
+          ship_country: 'Bangladesh',
+        };
 
-    const sslcz = new SSLCommerzPayment(store_id, store_passwd, is_live);
-    const apiResponse = await sslcz.init(paymentData);
-    const GatewayPageURL = apiResponse?.GatewayPageURL;
+        const sslcz = new SSLCommerzPayment(store_id, store_passwd, is_live);
+        const apiResponse = await sslcz.init(paymentData);
+        const GatewayPageURL = apiResponse?.GatewayPageURL;
 
-    if (GatewayPageURL) {
-      await BookingCollection.insertOne({
-        hotelId: hotel._id,
-        hotelName: hotel.hotelName,
-        hotelPrice: totalAmount,
-        userEmail,
-        userName,
-        userPhone,
-        userAddress,
-        checkInDate,
-        checkOutDate,
-        paymentMethod: "SSLCommerz",
-        status: "pending",
-        paidStatus: false,
-        transactionId: tran_id,
-        bookingDate: new Date(),
-      });
+        if (GatewayPageURL) {
+          await BookingCollection.insertOne({
+            hotelId: hotel._id,
+            hotelName: hotel.hotelName,
+            hotelPrice: totalAmount,
+            userEmail,
+            userName,
+            userPhone,
+            userAddress,
+            checkInDate,
+            checkOutDate,
+            paymentMethod: "SSLCommerz",
+            status: "pending",
+            paidStatus: false,
+            transactionId: tran_id,
+            bookingDate: new Date(),
+          });
 
-      res.send({ url: GatewayPageURL });
-    } else {
-      res.status(500).json({ message: "Payment Gateway URL not received" });
-    }
+          res.send({ url: GatewayPageURL });
+        } else {
+          res.status(500).json({ message: "Payment Gateway URL not received" });
+        }
 
-  } catch (error) {
-    console.error('Error processing hotel booking:', error);
-    res.status(500).json({ message: 'Server error', error });
-  }
-});
-
-
-
-
-app.post('/travel-bookings', async (req, res) => {
-  try {
-    const { tourId, price } = req.body;
-    console.log("Received booking request:", req.body); // ✅ Log incoming data
-
-    const tour = await TourCollection.findOne({ _id: new ObjectId(tourId) });
-    if (!tour) {
-      console.error("Tour not found:", tourId);
-      return res.status(404).json({ error: "Tour not found" });
-    }
-
-    const tran_id = new ObjectId().toString();
-    const paymentData = {
-      total_amount: Number(tour.price),
-      currency: 'BDT',
-      tran_id: tran_id,
-      success_url: `https://varsity-project-server-site.vercel.app/payment/success/${tran_id}`,
-      fail_url: `https://varsity-project-server-site.vercel.app/payment/fail/${tran_id}`,
-      cancel_url: `http://localhost:3030/cancel`,
-      ipn_url: `http://localhost:3030/ipn`,
-      shipping_method: 'Courier',
-      product_name: 'coxs',
-      product_category: 'Tour Booking',
-      product_profile: 'general',
-
-      cus_name: 'Customer Name',
-        cus_email: 'customer@example.com',
-        cus_add1: 'Dhaka',
-        cus_add2: 'Dhaka',
-        cus_city: 'Dhaka',
-        cus_state: 'Dhaka',
-        cus_postcode: '1000',
-        cus_country: 'Bangladesh',
-        cus_phone: '01711111111',
-        cus_fax: '01711111111',
-        ship_name: 'Customer Name',
-        ship_add1: 'Dhaka',
-        ship_add2: 'Dhaka',
-        ship_city: 'Dhaka',
-        ship_state: 'Dhaka',
-        ship_postcode: 1000,
-        ship_country: 'Bangladesh',
-    };
-
-    const sslcz = new SSLCommerzPayment(store_id, store_passwd, is_live);
-    const apiResponse = await sslcz.init(paymentData);
-    console.log("SSLCommerz response:", apiResponse); // ✅ Log API response
-
-    if (!apiResponse.GatewayPageURL) {
-      console.error("No Gateway URL:", apiResponse);
-      return res.status(500).json({ error: "Payment gateway error" });
-    }
-
-    // Save booking to DB
-    await BookingCollection.insertOne({
-      tourId: tour._id,
-      tourName: tour.touristSpotName,
-      price: price,
-      transactionId: tran_id,
-      status: "pending",
-      paidStatus: false,
+      } catch (error) {
+        console.error('Error processing hotel booking:', error);
+        res.status(500).json({ message: 'Server error', error });
+      }
     });
 
-    // ✅ Send the payment URL to frontend
-    res.json({ url: apiResponse.GatewayPageURL });
-
-  } catch (error) {
-    console.error("❌ Booking error:", error);
-    res.status(500).json({ error: "Server error" });
-  }
-});
 
 
 
-// In your backend (server.js or similar)
-app.post('/product-payments', async (req, res) => {
-  try {
-      const { productId, productName, price, quantity, totalAmount } = req.body;
-      
-      // Similar to your hotel booking logic but for products
-      const tran_id = new ObjectId().toString();
-      const paymentData = {
+    app.post('/travel-bookings', async (req, res) => {
+      try {
+        const { tourId, price } = req.body;
+        console.log("Received booking request:", req.body); // ✅ Log incoming data
+
+        const tour = await TourCollection.findOne({ _id: new ObjectId(tourId) });
+        if (!tour) {
+          console.error("Tour not found:", tourId);
+          return res.status(404).json({ error: "Tour not found" });
+        }
+
+        const tran_id = new ObjectId().toString();
+        const paymentData = {
+          total_amount: Number(tour.price),
+          currency: 'BDT',
+          tran_id: tran_id,
+          success_url: `https://varsity-project-server-site.vercel.app/payment/success/${tran_id}`,
+          fail_url: `https://varsity-project-server-site.vercel.app/payment/fail/${tran_id}`,
+          cancel_url: `http://localhost:3030/cancel`,
+          ipn_url: `http://localhost:3030/ipn`,
+          shipping_method: 'Courier',
+          product_name: 'coxs',
+          product_category: 'Tour Booking',
+          product_profile: 'general',
+
+          cus_name: 'Customer Name',
+          cus_email: 'customer@example.com',
+          cus_add1: 'Dhaka',
+          cus_add2: 'Dhaka',
+          cus_city: 'Dhaka',
+          cus_state: 'Dhaka',
+          cus_postcode: '1000',
+          cus_country: 'Bangladesh',
+          cus_phone: '01711111111',
+          cus_fax: '01711111111',
+          ship_name: 'Customer Name',
+          ship_add1: 'Dhaka',
+          ship_add2: 'Dhaka',
+          ship_city: 'Dhaka',
+          ship_state: 'Dhaka',
+          ship_postcode: 1000,
+          ship_country: 'Bangladesh',
+        };
+
+        const sslcz = new SSLCommerzPayment(store_id, store_passwd, is_live);
+        const apiResponse = await sslcz.init(paymentData);
+        console.log("SSLCommerz response:", apiResponse); // ✅ Log API response
+
+        if (!apiResponse.GatewayPageURL) {
+          console.error("No Gateway URL:", apiResponse);
+          return res.status(500).json({ error: "Payment gateway error" });
+        }
+
+        // Save booking to DB
+        await BookingCollection.insertOne({
+          tourId: tour._id,
+          tourName: tour.touristSpotName,
+          price: price,
+          transactionId: tran_id,
+          status: "pending",
+          paidStatus: false,
+        });
+
+        // ✅ Send the payment URL to frontend
+        res.json({ url: apiResponse.GatewayPageURL });
+
+      } catch (error) {
+        console.error("❌ Booking error:", error);
+        res.status(500).json({ error: "Server error" });
+      }
+    });
+
+
+
+    // In your backend (server.js or similar)
+    app.post('/product-payments', async (req, res) => {
+      try {
+        const { productId, productName, price, quantity, totalAmount } = req.body;
+
+        // Similar to your hotel booking logic but for products
+        const tran_id = new ObjectId().toString();
+        const paymentData = {
           total_amount: Number(totalAmount),
           currency: 'BDT',
           tran_id: tran_id,
@@ -1173,74 +1204,74 @@ app.post('/product-payments', async (req, res) => {
           product_profile: 'general',
           shipping_method: 'Courier',
           cus_name: 'Customer Name',
-            cus_email: 'customer@example.com',
-            cus_add1: 'Dhaka',
-            cus_add2: 'Dhaka',
-            cus_city: 'Dhaka',
-            cus_state: 'Dhaka',
-            cus_postcode: '1000',
-            cus_country: 'Bangladesh',
-            cus_phone: '01711111111',
-            cus_fax: '01711111111',
-            ship_name: 'Customer Name',
-            ship_add1: 'Dhaka',
-            ship_add2: 'Dhaka',
-            ship_city: 'Dhaka',
-            ship_state: 'Dhaka',
-            ship_postcode: 1000,
-            ship_country: 'Bangladesh',
-      };
+          cus_email: 'customer@example.com',
+          cus_add1: 'Dhaka',
+          cus_add2: 'Dhaka',
+          cus_city: 'Dhaka',
+          cus_state: 'Dhaka',
+          cus_postcode: '1000',
+          cus_country: 'Bangladesh',
+          cus_phone: '01711111111',
+          cus_fax: '01711111111',
+          ship_name: 'Customer Name',
+          ship_add1: 'Dhaka',
+          ship_add2: 'Dhaka',
+          ship_city: 'Dhaka',
+          ship_state: 'Dhaka',
+          ship_postcode: 1000,
+          ship_country: 'Bangladesh',
+        };
 
-      const sslcz = new SSLCommerzPayment(store_id, store_passwd, is_live);
-      const apiResponse = await sslcz.init(paymentData);
-      console.log("SSLCommerz response:", apiResponse); // ✅ Log API response
-      
-      if (apiResponse.GatewayPageURL) {
-        console.error("No Gateway URL:", apiResponse);
+        const sslcz = new SSLCommerzPayment(store_id, store_passwd, is_live);
+        const apiResponse = await sslcz.init(paymentData);
+        console.log("SSLCommerz response:", apiResponse); // ✅ Log API response
+
+        if (apiResponse.GatewayPageURL) {
+          console.error("No Gateway URL:", apiResponse);
           // Save to your orders/payments collection
           await BookingCollection.insertOne({
-              productId,
-              productName,
-              price,
-              quantity,
-              totalAmount,
-              status: "pending",
-              paidStatus: false,
-              transactionId: tran_id,
-              paymentMethod: "SSLCommerz",
-              createdAt: new Date()
+            productId,
+            productName,
+            price,
+            quantity,
+            totalAmount,
+            status: "pending",
+            paidStatus: false,
+            transactionId: tran_id,
+            paymentMethod: "SSLCommerz",
+            createdAt: new Date()
           });
 
           res.send({ url: apiResponse.GatewayPageURL });
-      } else {
+        } else {
           res.status(500).json({ error: "Payment gateway error" });
+        }
+      } catch (error) {
+        console.error("Product payment error:", error);
+        res.status(500).json({ error: "Server error" });
       }
-  } catch (error) {
-      console.error("Product payment error:", error);
-      res.status(500).json({ error: "Server error" });
-  }
-});
+    });
 
 
 
 
 
-app.post('/vehicle-payments', async (req, res) => {
-  try {
-      const { 
-          vehicleId, 
-          vehicleName, 
+    app.post('/vehicle-payments', async (req, res) => {
+      try {
+        const {
+          vehicleId,
+          vehicleName,
           brand,
           model,
-          price, 
-          bookingType, 
-          totalAmount 
-      } = req.body;
-      
-      // Generate unique transaction ID
-      const tran_id = new ObjectId().toString();
-      
-      const paymentData = {
+          price,
+          bookingType,
+          totalAmount
+        } = req.body;
+
+        // Generate unique transaction ID
+        const tran_id = new ObjectId().toString();
+
+        const paymentData = {
           total_amount: Number(price),
           currency: 'BDT',
           tran_id: tran_id,
@@ -1267,83 +1298,83 @@ app.post('/vehicle-payments', async (req, res) => {
           ship_state: 'Dhaka',
           ship_postcode: 1000,
           ship_country: 'Bangladesh',
-      };
+        };
 
-      const sslcz = new SSLCommerzPayment(store_id, store_passwd, is_live);
-      const apiResponse = await sslcz.init(paymentData);
-      console.log("SSLCommerz response:", apiResponse);
-      
-      if (apiResponse.GatewayPageURL) {
+        const sslcz = new SSLCommerzPayment(store_id, store_passwd, is_live);
+        const apiResponse = await sslcz.init(paymentData);
+        console.log("SSLCommerz response:", apiResponse);
+
+        if (apiResponse.GatewayPageURL) {
           // Save to your vehicle bookings collection
           await BookingCollection.insertOne({
-              vehicleId,
-              vehicleName,
-              brand,
-              model,
-              price,
-              bookingType,
-              totalAmount,
-              status: "pending",
-              paidStatus: false,
-              transactionId: tran_id,
-              paymentMethod: "SSLCommerz",
-              createdAt: new Date()
+            vehicleId,
+            vehicleName,
+            brand,
+            model,
+            price,
+            bookingType,
+            totalAmount,
+            status: "pending",
+            paidStatus: false,
+            transactionId: tran_id,
+            paymentMethod: "SSLCommerz",
+            createdAt: new Date()
           });
 
           res.send({ url: apiResponse.GatewayPageURL });
-      } else {
+        } else {
           console.error("No Gateway URL:", apiResponse);
           res.status(500).json({ error: "Payment gateway error" });
+        }
+      } catch (error) {
+        console.error("Vehicle payment error:", error);
+        res.status(500).json({ error: "Server error" });
       }
-  } catch (error) {
-      console.error("Vehicle payment error:", error);
-      res.status(500).json({ error: "Server error" });
-  }
-});
+    });
 
 
 
 
 
-// Payment Success route (keep it outside the main route)
-app.post("/payment/success/:tranId", async (req, res) => {
-  try {
-    const result = await BookingCollection.updateOne(
-      { transactionId: req.params.tranId },
-      { $set: { paidStatus: true, status: 'confirmed' } }
-    );
+    // Payment Success route (keep it outside the main route)
+    app.post("/payment/success/:tranId", async (req, res) => {
+      try {
+        const result = await BookingCollection.updateOne(
+          { transactionId: req.params.tranId },
+          { $set: { paidStatus: true, status: 'confirmed' } }
+        );
 
-    if (result.modifiedCount > 0) {
-      res.redirect(`http://localhost:5173/payment/success/${req.params.tranId}`);
-    } else {
-      res.status(400).json({ message: 'Booking not found or already updated' });
-    }
-  } catch (err) {
-    console.error('Payment success update error:', err);
-    res.status(500).json({ message: 'Internal server error' });
-  }
-  
-});
+        if (result.modifiedCount > 0) {
+          res.redirect(`http://localhost:5173/payment/success/${req.params.tranId}`);
+        } else {
+          res.status(400).json({ message: 'Booking not found or already updated' });
+        }
+      } catch (err) {
+        console.error('Payment success update error:', err);
+        res.status(500).json({ message: 'Internal server error' });
+      }
 
-
-
-app.post('/payment/fail/:tranId', async (req, res) => {
-  try {
-    const result = await BookingCollection.deleteOne({ transactionId: req.params.tranId });
-
-    if (result.deletedCount > 0) {
-      res.redirect(`http://localhost:5173/payment/fail/${req.params.tranId}`);
-    } else {
-      res.status(404).json({ message: 'Booking not found to delete' });
-    }
-  } catch (error) {
-    console.error('Payment fail route error:', error);
-    res.status(500).json({ message: 'Internal server error' });
-  }
-});
+    });
 
 
- // Get all Order
+
+    app.post('/payment/fail/:tranId', async (req, res) => {
+      try {
+        const result = await BookingCollection.deleteOne({ transactionId: req.params.tranId });
+
+        if (result.deletedCount > 0) {
+          res.redirect(`http://localhost:5173/payment/fail/${req.params.tranId}`);
+        } else {
+          res.status(404).json({ message: 'Booking not found to delete' });
+        }
+      } catch (error) {
+        console.error('Payment fail route error:', error);
+        res.status(500).json({ message: 'Internal server error' });
+      }
+    });
+
+
+    // Get all Order
     app.get('/order', async (req, res) => {
       try {
         const blogs = await BookingCollection.find().toArray();
