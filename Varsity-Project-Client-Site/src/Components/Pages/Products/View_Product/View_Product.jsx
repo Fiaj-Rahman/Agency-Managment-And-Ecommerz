@@ -116,7 +116,7 @@ const View_Product = () => {
             <div className="space-y-8">
                 <div>
                     <h1 className="text-3xl font-bold text-gray-900 tracking-tight">{product.productName}</h1>
-                    <div className="mt-2 flex items-center">
+                    {/* <div className="mt-2 flex items-center">
                         {renderStars(product.rating || 4)}
                         <span className="ml-2 text-gray-500 text-sm">({product.reviews || 0} reviews)</span>
                         {product.bestseller && (
@@ -124,7 +124,7 @@ const View_Product = () => {
                                 Bestseller
                             </span>
                         )}
-                    </div>
+                    </div> */}
                 </div>
 
                 <div className="bg-indigo-50 p-5 rounded-lg border border-indigo-100">
@@ -144,7 +144,7 @@ const View_Product = () => {
                                 </>
                             )}
                         </div>
-                        <div className="text-sm">
+                        {/* <div className="text-sm">
                             {product.stock > 0 ? (
                                 <span className="text-green-600 flex items-center">
                                     <span className="w-2 h-2 bg-green-500 rounded-full mr-2"></span>
@@ -156,7 +156,7 @@ const View_Product = () => {
                                     Out of Stock
                                 </span>
                             )}
-                        </div>
+                        </div> */}
                     </div>
                 </div>
 

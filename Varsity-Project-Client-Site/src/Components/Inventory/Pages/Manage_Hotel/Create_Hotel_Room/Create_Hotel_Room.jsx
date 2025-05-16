@@ -134,7 +134,7 @@ const Create_Hotel_Room = () => {
 
         await axios.post("https://varsity-project-server-site.vercel.app/hotels", hotelData);
         toast.success("Hotel room created successfully!");
-        navigate("/dashboard/manage-hotel-rooms");
+        navigate("/dashboard/manage-hotel");
       } catch (error) {
         toast.error("Error creating hotel room");
         console.error("Submission error:", error);

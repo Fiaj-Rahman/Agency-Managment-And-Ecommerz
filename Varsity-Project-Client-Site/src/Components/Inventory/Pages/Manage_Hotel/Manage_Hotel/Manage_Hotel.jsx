@@ -173,9 +173,15 @@ const Manage_Hotel = () => {
                           />
                         ))}
                         {hotel.images.length > 3 && (
-                          <Avatar className="bg-blue-100 text-blue-900 border-2 border-white">
-                            +{hotel.images.length - 3}
-                          </Avatar>
+                          <div className="relative">
+                            <Avatar 
+                              src={hotel.images[3]} 
+                              className="border-2 border-white"
+                            />
+                            <span className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-30 text-white text-xs font-bold">
+                              +{hotel.images.length - 3}
+                            </span>
+                          </div>
                         )}
                       </div>
                     </td>

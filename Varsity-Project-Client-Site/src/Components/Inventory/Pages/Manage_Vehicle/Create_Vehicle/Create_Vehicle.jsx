@@ -138,7 +138,7 @@ const Create_Vehicle = () => {
 
         await axios.post("https://varsity-project-server-site.vercel.app/vehicles", vehicleData);
         toast.success("Vehicle created successfully!");
-        navigate("/dashboard/manage-vehicles");
+        navigate("/dashboard/manage-vehicle");
       } catch (error) {
         toast.error("Error creating vehicle");
         console.error("Submission error:", error);

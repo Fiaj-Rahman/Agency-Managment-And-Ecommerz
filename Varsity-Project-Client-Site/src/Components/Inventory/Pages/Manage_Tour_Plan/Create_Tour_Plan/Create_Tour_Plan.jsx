@@ -166,7 +166,7 @@ const Create_Tour_Plan = () => {
 
         if (response.data.success) {
           toast.success("Tour plan created successfully!");
-          navigate("dashboard/manage-tour-plan");
+          navigate("/dashboard/manage-tour-plan");
         }
 
         setLoading(false);

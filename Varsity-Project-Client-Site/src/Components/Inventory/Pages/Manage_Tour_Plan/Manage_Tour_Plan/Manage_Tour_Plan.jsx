@@ -128,7 +128,6 @@ const Manage_Tour_Plan = () => {
                                             </div>
                                         </td>
 
-
                                         {/* Prices */}
                                         <td className="p-4 border-b border-blue-100">
                                             <div className="flex flex-col gap-1">
@@ -161,7 +160,7 @@ const Manage_Tour_Plan = () => {
                                             </div>
                                         </td>
 
-                                        {/* Gallery */}
+                                        {/* Gallery - Fixed this section */}
                                         <td className="p-4 border-b border-blue-100">
                                             <div className="flex -space-x-2">
                                                 {tour.images.slice(0, 3).map((img, idx) => (
@@ -173,9 +172,15 @@ const Manage_Tour_Plan = () => {
                                                     />
                                                 ))}
                                                 {tour.images.length > 3 && (
-                                                    <Avatar className="bg-blue-100 text-blue-900 border-2 border-white">
-                                                        +{tour.images.length - 3}
-                                                    </Avatar>
+                                                    <div className="relative">
+                                                        <Avatar 
+                                                            src={tour.images[3]} 
+                                                            className="border-2 border-white"
+                                                        />
+                                                        <span className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-30 text-white text-xs font-bold">
+                                                            +{tour.images.length - 3}
+                                                        </span>
+                                                    </div>
                                                 )}
                                             </div>
                                         </td>
@@ -186,7 +191,7 @@ const Manage_Tour_Plan = () => {
                                                 <Tooltip content="Edit">
                                                     <Link
                                                         to={`/dashboard/update-tour/${tour._id}`}
-                                                        state={{ tourData: tour }}  // Pass the tour data through state
+                                                        state={{ tourData: tour }}
                                                     >
                                                         <IconButton variant="text" className="text-blue-900 hover:bg-blue-100">
                                                             <PencilIcon className="h-5 w-5" />
@@ -244,19 +249,3 @@ const Manage_Tour_Plan = () => {
 };
 
 export default Manage_Tour_Plan;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
